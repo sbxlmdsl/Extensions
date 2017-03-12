@@ -189,6 +189,37 @@ namespace Genesys.Extensions
 
             return returnValue;
         }
+
+        /// <summary>
+        /// Converts string to double
+        /// </summary>
+        /// <param name="item">Source item to convert</param>
+        /// <param name="notFoundValue">Value if not found</param>
+        /// <returns>Converted or not found value of the source item</returns>
+        public static TEnum TryParseEnum<TEnum>(this string item, TEnum notFoundValue)
+        {
+            TEnum returnValue = notFoundValue;
+
+            try
+            {
+                if (String.IsNullOrEmpty(item) == false)
+                {
+                    returnValue = (TEnum)Enum.Parse(typeof(TEnum), item, true);
+                }
+            }
+            catch (ArgumentException)
+            {
+                returnValue = notFoundValue;
+            }
+            catch (OverflowException)
+            {
+                returnValue = notFoundValue;
+            }
+
+            return returnValue;
+        }
+
+        
         
         /// <summary>
         /// Converts string to DateTime

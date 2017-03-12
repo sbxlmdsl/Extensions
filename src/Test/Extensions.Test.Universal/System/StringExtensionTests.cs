@@ -166,6 +166,26 @@ namespace Genesys.Extensions.Test
         }
 
         [TestMethod()]
+        public void String_TryParseEnum()
+        {
+            // 1
+            string testData1 = EnumExtensionTests.EnumConsumer.MyEnumFlags.one.ToString();            
+            var parsedData1 = EnumExtensionTests.EnumConsumer.MyEnumFlags.one;
+            var test1 = testData1.TryParseEnum<EnumExtensionTests.EnumConsumer.MyEnumFlags>(EnumExtensionTests.EnumConsumer.MyEnumFlags.one);
+            Assert.IsTrue(test1 == parsedData1, "Did not work");
+            // 2
+            string testData2 = EnumExtensionTests.EnumConsumer.MyEnumFlags.eight.ToString();
+            var parsedData2 = EnumExtensionTests.EnumConsumer.MyEnumFlags.eight;
+            var test2 = testData2.TryParseEnum<EnumExtensionTests.EnumConsumer.MyEnumFlags>(EnumExtensionTests.EnumConsumer.MyEnumFlags.eight);
+            Assert.IsTrue(test2 == parsedData2, "Did not work");
+            // 3
+            string testType3 = EnumExtensionTests.EnumConsumer.MyEnumInts.one.ToString();
+            var parsedType3 = EnumExtensionTests.EnumConsumer.MyEnumInts.one;
+            var test3 = testType3.TryParseEnum<EnumExtensionTests.EnumConsumer.MyEnumInts>(EnumExtensionTests.EnumConsumer.MyEnumInts.one);
+            Assert.IsTrue(test3 == parsedType3, "Did not work");
+        }
+
+        [TestMethod()]
         public void String_TryParseDecimal()
         {
             var testDataGood = "12.00";
