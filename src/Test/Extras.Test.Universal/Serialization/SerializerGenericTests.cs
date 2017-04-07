@@ -55,7 +55,7 @@ namespace Genesys.Extras.Test
             var ItemL = new List<int> { 1, 2, 3 };
             var Serializer = new JsonSerializer<List<int>>();
             var serializedDataL = Serializer.Serialize(ItemL);
-            Assert.IsTrue(ItemL.Count == Serializer.Deserialize(serializedDataL).Count, "Did not work");
+            Assert.IsTrue(ItemL.Count == Serializer.Deserialize(serializedDataL).Count);
         }
     }
 }

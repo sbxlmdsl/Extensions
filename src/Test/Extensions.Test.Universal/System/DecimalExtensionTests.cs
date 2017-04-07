@@ -30,7 +30,7 @@ namespace Genesys.Extensions.Test
             decimal original = 10.00M;
             double castedValue = TypeExtension.DefaultDouble;
             castedValue = original.ToDouble();
-            Assert.IsTrue(castedValue == (double)original, "Did not work");
+            Assert.IsTrue(castedValue == (double)original);
         }
 
         [TestMethod()]
@@ -39,7 +39,7 @@ namespace Genesys.Extensions.Test
             decimal original = 10.00M;
             var castedValue = TypeExtension.DefaultInteger;
             castedValue = original.ToInt();
-            Assert.IsTrue(castedValue == (int)original, "Did not work");
+            Assert.IsTrue(castedValue == (int)original);
         }
 
         [TestMethod()]
@@ -48,7 +48,7 @@ namespace Genesys.Extensions.Test
             decimal original = 10.00M;
             short castedValue = TypeExtension.DefaultShort;
             castedValue = original.ToShort();
-            Assert.IsTrue(castedValue == (short)original, "Did not work");
+            Assert.IsTrue(castedValue == (short)original);
         }
 
         [TestMethod()]
@@ -57,7 +57,7 @@ namespace Genesys.Extensions.Test
             decimal original = 10.00M;
             long castedValue = TypeExtension.DefaultLong;
             castedValue = original.ToLong();
-            Assert.IsTrue(castedValue == (long)original, "Did not work");
+            Assert.IsTrue(castedValue == (long)original);
         }
     }
 }

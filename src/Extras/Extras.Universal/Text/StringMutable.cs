@@ -1,20 +1,9 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="StringMutable.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -39,7 +28,7 @@ namespace Genesys.Extras.Text
             get { return valueField; }
             set { valueField = value.Trim(); }
         }
-
+        
         /// <summary>
         /// Constructor
         /// </summary>
@@ -56,6 +45,26 @@ namespace Genesys.Extras.Text
         private StringMutable(string value)
         {
             Value = value;
+        }
+
+        /// <summary>
+        ///     Returns a copy of this System.String object converted to lowercase using the
+        ///     casing rules of the invariant culture.
+        /// </summary>
+        /// <returns>The lowercase equivalent of the current string</returns>
+        public String ToLowerInvariant()
+        {
+            return this.valueField.ToLowerInvariant();
+        }
+
+        /// <summary>
+        ///     Returns a copy of this System.String object converted to lowercase using the
+        ///     casing rules of the invariant culture.
+        /// </summary>
+        /// <returns>The uppercase equivalent of the current string</returns>
+        public String ToUpperInvariant()
+        {
+            return this.valueField.ToUpperInvariant();
         }
 
         /// <summary>

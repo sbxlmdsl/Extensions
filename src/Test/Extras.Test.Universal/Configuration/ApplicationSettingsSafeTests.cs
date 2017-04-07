@@ -18,37 +18,49 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Configuration;
 using Genesys.Extensions;
 using Genesys.Extras.Configuration;
+using System.Collections.Specialized;
 
 namespace Genesys.Extras.Test
 {
+    /// <summary>
+    /// ConfigurationManagerSafe Tests
+    /// </summary>
     [TestClass()]
-    public partial class ConfigurationManagerFullTests
+    public partial class ApplicationSettingSafeTests
     {
+        /// <summary>
+        /// Connection strings in safe version of configuration manager
+        /// </summary>
         [TestMethod()]
-        public void Configuration_ConfigurationManagerFull_AppSettings()
+        public void Configuration_ApplicationSettingSafe()
         {
-            var itemToTestString = TypeExtension.DefaultString;
-            AppSettingSafe itemToTest = new AppSettingSafe();
-            ConfigurationManagerSafe configuration = new ConfigurationManagerFull();
+            var itemToTest = new AppSettingSafe();
+            var configuration = ConfigurationManagerSafeTests.Create();
+
             itemToTest = configuration.AppSetting("TestAppSetting");
             Assert.IsTrue(itemToTest.Value != TypeExtension.DefaultString);
-            itemToTestString = ConfigurationManagerFull.AppSettings.GetValue("TestAppSetting");
-            Assert.IsTrue(itemToTestString != TypeExtension.DefaultString);
         }
 
-        [TestMethod()]
-        public void Configuration_ConfigurationManagerFull_ConnectionStrings()
+        /// <summary>
+        /// Universal cant access ConfigurationManager directly. 
+        ///  This method uses the ConfigurationManager to get data, then returns as a cross-platform friendly array
+        /// </summary>
+        /// <returns></returns>
+        public static string[,] AppSettingsGet()
         {
-            ConnectionStringSafe itemToTest = new ConnectionStringSafe();
-            ConfigurationManagerSafe configuration = new ConfigurationManagerFull();
-            itemToTest = configuration.ConnectionString("TestEFConnection");
-            Assert.IsTrue(itemToTest.Value != TypeExtension.DefaultString);
-            Assert.IsTrue(itemToTest.IsEF);
-            itemToTest = configuration.ConnectionString("TestADOConnection");
-            Assert.IsTrue(itemToTest.Value != TypeExtension.DefaultString);
-            Assert.IsTrue(itemToTest.IsADO);
-        }        
+            var itemToConvert = ConfigurationManager.AppSettings ?? new NameValueCollection();
+            string[,] returnValue = new string[itemToConvert.Count, 2];
+
+            for (var count = 0; count < itemToConvert.Count; count++)
+            {
+                returnValue[count, 0] = itemToConvert.Keys[count];
+                returnValue[count, 1] = itemToConvert[count];
+            }
+
+            return returnValue;
+        }
     }
 }

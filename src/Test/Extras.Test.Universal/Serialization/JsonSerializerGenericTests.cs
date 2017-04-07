@@ -49,13 +49,13 @@ namespace Genesys.Extras.Test
             var Testdata1= "TestDataHere";
             ISerializer<object> Serialzer1 = new JsonSerializer<object>();
             data1= Serialzer1.Serialize(Testdata1);
-            Assert.IsTrue(Serialzer1.Deserialize(data1).ToString() == Testdata1, "Did not work");
+            Assert.IsTrue(Serialzer1.Deserialize(data1).ToString() == Testdata1);
             
             var data = TypeExtension.DefaultString;
             StringMutable TestData = "TestDataHere";
             var Serialzer = new JsonSerializer<StringMutable>();
             data = Serialzer.Serialize(TestData);
-            Assert.IsTrue(Serialzer.Deserialize(data).ToString() == TestData.ToString(), "Did not work");
+            Assert.IsTrue(Serialzer.Deserialize(data).ToString() == TestData.ToString());
         }
 
         [TestMethod()]
@@ -65,7 +65,7 @@ namespace Genesys.Extras.Test
             var ItemL = new List<int> { 1, 2, 3 };
             var Serializer = new JsonSerializer<List<int>>();
             var SerializedDataL = Serializer.Serialize(ItemL);
-            Assert.IsTrue(ItemL.Count == Serializer.Deserialize(SerializedDataL).Count, "Did not work");
+            Assert.IsTrue(ItemL.Count == Serializer.Deserialize(SerializedDataL).Count);
         }
 
         [TestMethod()]
@@ -83,30 +83,30 @@ namespace Genesys.Extras.Test
             // stringISODate -> object -> string
             serializer = new JsonSerializer<PersonInfo>();
             personJsonDeserialized = serializer.Deserialize(personJsonISODate);
-            Assert.IsTrue(personJsonDeserialized.FirstName == "John", "Did not work");
-            Assert.IsTrue(personJsonDeserialized.LastName == "Doe", "Did not work");
-            Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20), "Did not work");
+            Assert.IsTrue(personJsonDeserialized.FirstName == "John");
+            Assert.IsTrue(personJsonDeserialized.LastName == "Doe");
+            Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20));
             personJsonReSerialized = serializer.Serialize(personJsonDeserialized);
-            Assert.IsTrue(personJsonReSerialized.Length > 0, "Did not work");
+            Assert.IsTrue(personJsonReSerialized.Length > 0);
 
             // object -> string -> object
             personObjectSerialized = serializer.Serialize(personObject);
-            Assert.IsTrue(personObjectSerialized.Length > 0, "Did not work");
+            Assert.IsTrue(personObjectSerialized.Length > 0);
             personObject = serializer.Deserialize(personObjectSerialized);
-            Assert.IsTrue(personObject.FirstName == "John", "Did not work");
-            Assert.IsTrue(personObject.LastName == "Doe", "Did not work");
-            Assert.IsTrue(personObject.BirthDate == new DateTime(1977, 11, 20), "Did not work");
+            Assert.IsTrue(personObject.FirstName == "John");
+            Assert.IsTrue(personObject.LastName == "Doe");
+            Assert.IsTrue(personObject.BirthDate == new DateTime(1977, 11, 20));
 
             // stringNONISODate (default date) -> object -> string
             DataContractJsonSerializer defaultSerializer = new DataContractJsonSerializer(typeof(PersonInfo));
             serializer = new JsonSerializer<PersonInfo>();
             serializer.DateTimeFormat = defaultSerializer.DateTimeFormat;
             personJsonDeserialized = serializer.Deserialize(personJsonDefaultDate);
-            Assert.IsTrue(personJsonDeserialized.FirstName == "John", "Did not work");
-            Assert.IsTrue(personJsonDeserialized.LastName == "Doe", "Did not work");
-            Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20), "Did not work");
+            Assert.IsTrue(personJsonDeserialized.FirstName == "John");
+            Assert.IsTrue(personJsonDeserialized.LastName == "Doe");
+            Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20));
             personJsonReSerialized = serializer.Serialize(personJsonDeserialized);
-            Assert.IsTrue(personJsonReSerialized.Length > 0, "Did not work");
+            Assert.IsTrue(personJsonReSerialized.Length > 0);
         }        
 
         [TestMethod()]
@@ -114,8 +114,8 @@ namespace Genesys.Extras.Test
         {
             var serializer = new JsonSerializer<string>();
 
-            Assert.IsTrue(testPhraseSerialized == serializer.Serialize(testPhrase), "Did not work");
-            Assert.IsTrue(testPhrase == serializer.Deserialize(testPhraseSerialized), "Did not work");
+            Assert.IsTrue(testPhraseSerialized == serializer.Serialize(testPhrase));
+            Assert.IsTrue(testPhrase == serializer.Deserialize(testPhraseSerialized));
         }
 
         [TestMethod()]
@@ -129,11 +129,11 @@ namespace Genesys.Extras.Test
             // Serialization            
             testPhraseMutable = testPhrase;
             result = serializerMutable.Serialize(testPhraseMutable);
-            Assert.IsTrue(result == testPhraseMutableSerialized, "Did not work");
+            Assert.IsTrue(result == testPhraseMutableSerialized);
 
             // Deserialization
             resultMutable = serializerMutable.Deserialize(testPhraseMutableSerialized);
-            Assert.IsTrue(resultMutable == testPhrase, "Did not work");
+            Assert.IsTrue(resultMutable == testPhrase);
         }
 
         [TestMethod()]
@@ -148,16 +148,16 @@ namespace Genesys.Extras.Test
             // string Mutable can be serialized as string, then deserialized as string after transport 
             //  So that consumers don't need to know original was StringMutable
             result = serializer.Serialize(testPhraseMutable);
-            Assert.IsTrue(testPhraseSerialized == result, "Did not work");
+            Assert.IsTrue(testPhraseSerialized == result);
 
             // StringMutable serialize -> string deserialize
             result = serializerMutable.Deserialize(testPhraseSerialized); // Not supported scenario, should default ot empty string
-            Assert.IsTrue(result == TypeExtension.DefaultString, "Did not work"); 
+            Assert.IsTrue(result == TypeExtension.DefaultString); 
 
             result = serializerMutable.Deserialize(testPhraseMutableSerialized);
-            Assert.IsTrue(result == testPhrase, "Did not work");
+            Assert.IsTrue(result == testPhrase);
             resultMutable = serializerMutable.Deserialize(testPhraseMutableSerialized);
-            Assert.IsTrue(resultMutable == testPhrase, "Did not work");
+            Assert.IsTrue(resultMutable == testPhrase);
         }
     }
 }

@@ -28,10 +28,17 @@ namespace Genesys.Extras.Text.Cleansing
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false), CLSCompliant(true)]
     public class CleanseFor : Attribute, IAttributeValue<CleanserIDs>
     {
+        private static CleanserIDs defaultValue = CleanserIDs.Default;
+
         /// <summary>
         /// Value of attribute
         /// </summary>
-        public CleanserIDs Value { get; set; } = CleanserIDs.Default;
+        public CleanserIDs Default { get; set; } = defaultValue;
+
+        /// <summary>
+        /// Value of attribute
+        /// </summary>
+        public CleanserIDs Value { get; set; } = defaultValue;
 
         /// <summary>
         /// Constructor

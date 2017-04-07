@@ -36,7 +36,7 @@ namespace Genesys.Extras.Test
             var MaskToSearch = @"app.config";
             FileSearcher Searcher = new FileSearcher(PathsToSearch, MaskToSearch, 2);
             Searcher.Search();
-            Assert.IsTrue(Searcher.FoundFiles.Count() > 0, "Did not work");
+            Assert.IsTrue(Searcher.FoundFiles.Count() > 0);
         }
     }
 }

@@ -36,13 +36,13 @@ namespace Genesys.Extras.Test
             var testData1 = "TestDataHere";
             ISerializer<object> serialzer1 = new JsonSerializer<object>();
             data1 = serialzer1.Serialize(testData1);
-            Assert.IsTrue(serialzer1.Deserialize(data1).ToString() == testData1, "Did not work");
+            Assert.IsTrue(serialzer1.Deserialize(data1).ToString() == testData1);
             
             var data = TypeExtension.DefaultString;
             StringMutable testData = "TestDataHere";
             var serialzer = new JsonSerializer<StringMutable>();
             data = serialzer.Serialize(testData);
-            Assert.IsTrue(serialzer.Deserialize(data).ToString() == testData.ToString(), "Did not work");
+            Assert.IsTrue(serialzer.Deserialize(data).ToString() == testData.ToString());
         }
 
         [TestMethod()]
@@ -51,7 +51,7 @@ namespace Genesys.Extras.Test
             var ItemL = new List<int> { 1, 2, 3 };
             var Serializer = new JsonSerializer<List<int>>();
             var SerializedDataL = Serializer.Serialize(ItemL);
-            Assert.IsTrue(ItemL.Count == Serializer.Deserialize(SerializedDataL).Count, "Did not work");
+            Assert.IsTrue(ItemL.Count == Serializer.Deserialize(SerializedDataL).Count);
         }
      
     }

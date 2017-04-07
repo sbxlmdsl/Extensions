@@ -37,7 +37,7 @@ namespace Genesys.Extras.Test
             result = builder.ToString();
             foreach(string item in data)
             {
-                Assert.IsTrue(result.Contains(item) == true, "Did not work");
+                Assert.IsTrue(result.Contains(item) == true);
             }            
         }        
     }

@@ -31,8 +31,8 @@ namespace Genesys.Extras.Test
             var rawData = "Hello, I am raw";
             Md5HashBuilder hasher = new Md5HashBuilder(rawData);
             var hashed = hasher.HashedString;
-            Assert.IsTrue(rawData != hashed, "Did not work");
-            Assert.IsTrue(hasher.Compare(rawData) == true, "Did not work");
+            Assert.IsTrue(rawData != hashed);
+            Assert.IsTrue(hasher.Compare(rawData) == true);
         }
     }
 }

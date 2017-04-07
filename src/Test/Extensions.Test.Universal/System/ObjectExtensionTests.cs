@@ -52,7 +52,7 @@ namespace Genesys.Extensions.Test
         {
             var testItem = new MyClass1();
             var compareItem = new MyClass3();
-            Assert.IsTrue(testItem.DirectCastSafe<MyClass3>().GetType() == compareItem.GetType(), "Did not work");
+            Assert.IsTrue(testItem.DirectCastSafe<MyClass3>().GetType() == compareItem.GetType());
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace Genesys.Extensions.Test
             var fillItem2 = new MyClass3();
             fillItem1.Fill(testItem);
             fillItem2.Fill(testItem);
-            Assert.IsTrue(testItem.MyProperty == fillItem1.MyProperty, "Did not work");
-            Assert.IsTrue(testItem.MyProperty == fillItem2.MyProperty, "Did not work");
-            Assert.IsTrue(testItem.MyProperty != new MyClass2().MyProperty, "Did not work");
+            Assert.IsTrue(testItem.MyProperty == fillItem1.MyProperty);
+            Assert.IsTrue(testItem.MyProperty == fillItem2.MyProperty);
+            Assert.IsTrue(testItem.MyProperty != new MyClass2().MyProperty);
         }
     }
 }

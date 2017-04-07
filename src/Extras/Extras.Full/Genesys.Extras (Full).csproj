@@ -54,6 +54,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
@@ -83,7 +84,6 @@
     <Compile Include="Security.Cryptography\Md5HashBuilder.cs" />
     <Compile Include="Security.Cryptography\DesEncryptor.cs" />
     <Compile Include="Serialization\PhpSerializerGeneric.cs" />
-    <Compile Include="Serialization\XmlSerializerGeneric.cs" />
     <Compile Include="Serialization\XmlSerializer.cs" />
     <Compile Include="Web.Http\MvcController.cs" />
     <Compile Include="Web.Http\MvcModelBinder.cs" />

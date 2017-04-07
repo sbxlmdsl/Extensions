@@ -33,7 +33,7 @@ namespace Genesys.Extras.Test
         public void Mathematics_Age()
         {
             Age AgeObject = new Age(new DateTime(1988,5,5));
-            Assert.IsTrue(AgeObject.Years == 28, "Did not work");
+            Assert.IsTrue(AgeObject.Years == 28);
         }
     }
 }

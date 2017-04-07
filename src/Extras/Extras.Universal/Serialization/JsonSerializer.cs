@@ -1,20 +1,9 @@
-//-----------------------------------------------------------------------
-// <copyright file="JsonSerializer.cs" company="Genesys Source">
+﻿//-----------------------------------------------------------------------
+// <copyright file="Serializer.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -32,11 +21,11 @@ namespace Genesys.Extras.Serialization
     /// </summary>
     /// <remarks></remarks>
     [CLSCompliant(true)]
-    public class JsonSerializer : Serializer
+    public class JsonSerializer<T> : Serializer<T>
     {
         /// <summary>
         /// Gets or sets a DateTimeFormat that defines the culturally appropriate format of displaying dates and times.
-        /// Default is ISO 8601 DateTime Format. Does not default to microsoft Date(ticks)
+        /// Default is ISO 8601 DateTime Format. Does not default to microsoft Date()
         /// </summary>
         public DateTimeFormat DateTimeFormat { get; set; } = new DateTimeFormat("yyyy-MM-dd'T'HH:mm:ss");
 
@@ -53,15 +42,15 @@ namespace Genesys.Extras.Serialization
         /// <summary>
         /// Constructor
         /// </summary>
-        public JsonSerializer(IListSafe<Type> knownTypes) : base(knownTypes) {  }
-        
+        public JsonSerializer(IListSafe<Type> knownTypes) : base(knownTypes) { }
+
         /// <summary>
-        /// Serializes the passed object to a string
+        /// Serializes and returns the JSON as a string
         /// </summary>
-        /// <typeparam name="T">Type of incoming object</typeparam>
-        /// <param name="objectToSerialize">Object to serialize</param>
-        /// <returns>Json string</returns>
-        public override string Serialize<T>(T objectToSerialize)
+        /// <param name="objectToSerialize"></param>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public override string Serialize(T objectToSerialize)
         {
             var returnValue = TypeExtension.DefaultString;
             DataContractJsonSerializer serializer;
@@ -91,10 +80,9 @@ namespace Genesys.Extras.Serialization
         /// <summary>
         /// De-serializes the passed string to an object
         /// </summary>
-        /// <typeparam name="T">Type of outgoing object</typeparam>
         /// <param name="stringToDeserialize">Object to deserialize</param>
         /// <returns>Concrete class</returns>
-        public override T Deserialize<T>(string stringToDeserialize)
+        public override T Deserialize(string stringToDeserialize)
         {
             T returnValue = TypeExtension.InvokeConstructorOrDefault<T>();
             Byte[] bytes = null;

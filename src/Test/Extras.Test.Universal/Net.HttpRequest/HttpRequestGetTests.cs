@@ -21,6 +21,8 @@ using Genesys.Extensions;
 using Genesys.Extras.Configuration;
 using Genesys.Extras.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Genesys.Extras.Test
@@ -35,7 +37,7 @@ namespace Genesys.Extras.Test
             var dataOut = TypeExtension.DefaultString;            
             HttpRequestGetString request = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi");
             dataOut = await request.SendAsync();
-            Assert.IsTrue(request.Response.IsSuccessStatusCode == true, "Did not work");
+            Assert.IsTrue(request.Response.IsSuccessStatusCode == true);
         }
 
         [TestMethod()]
@@ -45,7 +47,48 @@ namespace Genesys.Extras.Test
             object dataOut;
             HttpRequestGet<object> request = new HttpRequestGet<object>(configuration.AppSettingValue("MyWebService") + "/HomeApi");
             dataOut = await request.SendAsync();
-            Assert.IsTrue(request.Response.IsSuccessStatusCode == true, "Did not work");
+            Assert.IsTrue(request.Response.IsSuccessStatusCode == true);
+        }
+
+        public async Task Net_HttpRequestGet_ComplexObject()
+        {
+            var url = ConfigurationManagerSafeTests.Create().AppSettingValue("MyWebService");
+            var request = new HttpRequestGet<CustomerSearchModel>(url);
+            var returnValue = await request.SendAsync();
+            Assert.IsTrue(returnValue.Results.Count > 0);
+        }
+
+        public class CustomerSearchModel
+        {
+            public int ID { get; set; } = TypeExtension.DefaultInteger;
+            public Guid Key { get; set; } = TypeExtension.DefaultGuid;
+            public string FirstName { get; set; } = TypeExtension.DefaultString;
+            public string MiddleName { get; set; } = TypeExtension.DefaultString;
+            public string LastName { get; set; } = TypeExtension.DefaultString;
+            public DateTime BirthDate { get; set; } = TypeExtension.DefaultDate;
+            public int GenderID { get; set; } = TypeExtension.DefaultInteger;
+            public Guid CustomerTypeKey { get; set; } = TypeExtension.DefaultGuid;
+            public List<CustomerModel> Results { get; set; } = new List<CustomerModel>();
+            public CustomerSearchModel()
+                    : base()
+            {
+            }
+        }
+
+        public class CustomerModel
+        {
+            public int ID { get; set; } = TypeExtension.DefaultInteger;
+            public Guid Key { get; set; } = TypeExtension.DefaultGuid;
+            public string FirstName { get; set; } = TypeExtension.DefaultString;
+            public string MiddleName { get; set; } = TypeExtension.DefaultString;
+            public string LastName { get; set; } = TypeExtension.DefaultString;
+            public DateTime BirthDate { get; set; } = TypeExtension.DefaultDate;
+            public int GenderID { get; set; } = TypeExtension.DefaultInteger;
+            public Guid CustomerTypeKey { get; set; } = TypeExtension.DefaultGuid;
+
+            public CustomerModel()
+            {
+            }            
         }
     }
 }

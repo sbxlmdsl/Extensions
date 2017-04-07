@@ -29,14 +29,14 @@ namespace Genesys.Extras.Test
         public void Net_UrlBuilder()
         {
             UrlBuilder TestItem = new UrlBuilder("Test");
-            Assert.IsTrue(TestItem.Host.ToString() == "test", "Did not work");
+            Assert.IsTrue(TestItem.Host.ToString() == "test");
         }
         
         [TestMethod()]
         public void Net_UrlBuilder_ToString()
         {
             UrlBuilder TestItem = new UrlBuilder("Test");
-            Assert.IsTrue(TestItem.ToString() == "http://test:80/", "Did not work");
+            Assert.IsTrue(TestItem.ToString() == "http://test:80/");
         }
 
         [TestMethod()]

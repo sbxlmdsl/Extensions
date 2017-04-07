@@ -96,7 +96,7 @@ namespace Genesys.Extras.Text.Cleansing
 
             foreach (XElement element in elements)
             {
-                if (!(SafeTags.Any(x => x.ToLower() == element.Name.LocalName.ToLower())))
+                if (!(SafeTags.Any(x => x.ToLowerInvariant() == element.Name.LocalName.ToLowerInvariant())))
                 {
                     element.Name = safeTag;
                     element.RemoveAttributes();
@@ -106,7 +106,7 @@ namespace Genesys.Extras.Text.Cleansing
                     var attrList = element.Attributes().OfType<XAttribute>().ToList();
                     foreach (XAttribute attr in attrList)
                     {
-                        if (!(SafeAttributes.Any(x => x.ToLower() == attr.Name)))
+                        if (!(SafeAttributes.Any(x => x.ToLowerInvariant() == attr.Name)))
                         {
                             element.RemoveAttributes();
                         }

@@ -35,8 +35,8 @@ namespace Genesys.Extras.Test
             ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
             StringMutable testData = "Hello world";
             EndpointInfo<StringMutable> endpoint = new EndpointInfo<StringMutable>(configuration.AppSettingValue("MyWebService"), controller, -1, testData, testData);
-            Assert.IsTrue(endpoint.GetEndpoint.Url.Contains("http"), "Did not work");
-            Assert.IsTrue(endpoint.GetEndpoint.Url.Contains(controller), "Did not work");
+            Assert.IsTrue(endpoint.GetEndpoint.Url.Contains("http"));
+            Assert.IsTrue(endpoint.GetEndpoint.Url.Contains(controller));
         }
     }
 }

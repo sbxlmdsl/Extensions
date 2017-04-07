@@ -30,14 +30,14 @@ namespace Genesys.Extensions.Test
         public void Enum_Contains()
         {
             EnumConsumer consumer = new EnumConsumer();
-            Assert.IsTrue(consumer.enumFlag.Contains(0x01) == true, "Did not work");
+            Assert.IsTrue(consumer.enumFlag.Contains(0x01) == true);
         }
 
         [TestMethod()]
         public void Enum_ToDictionary()
         {
             var dict = EnumConsumer.MyEnumInts.one.ToDictionary();
-            Assert.IsTrue(dict.Count > 0 == true, "Did not work");
+            Assert.IsTrue(dict.Count > 0 == true);
         }
         public class EnumConsumer
         {

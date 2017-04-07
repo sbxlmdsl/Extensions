@@ -31,8 +31,8 @@ namespace Genesys.Extras.Test
             var rawData = "Hello, I am raw";
             DesEncryptor encryptor = new DesEncryptor(rawData);
             var encrypted = encryptor.Encrypt(rawData);
-            Assert.IsTrue(rawData != encrypted, "Did not work");
-            Assert.IsTrue(encryptor.Decrypt(encrypted) == rawData, "Did not work");
+            Assert.IsTrue(rawData != encrypted);
+            Assert.IsTrue(encryptor.Decrypt(encrypted) == rawData);
         }        
     }
 }

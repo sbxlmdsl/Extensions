@@ -31,7 +31,7 @@ namespace Genesys.Extensions.Test
         public void Byte_ToString()
         {
             byte[] bytes = { 0, 0, 0, 25 };
-            Assert.IsTrue(bytes.ToString().Length > 0, "Did not work");
+            Assert.IsTrue(bytes.ToString().Length > 0);
         }
     }
 }

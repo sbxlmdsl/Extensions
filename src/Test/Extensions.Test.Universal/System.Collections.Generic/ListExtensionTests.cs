@@ -44,7 +44,7 @@ namespace Genesys.Extensions.Test
         [TestMethod()]
         public void List_FirstOrDefaultSafe()
         {
-            Assert.IsTrue(names1.FirstOrDefaultSafe("Not found") == names1[0], "Did not work");
+            Assert.IsTrue(names1.FirstOrDefaultSafe("Not found") == names1[0]);
         }
 
         [TestMethod()]
@@ -53,7 +53,7 @@ namespace Genesys.Extensions.Test
             List<string> allNames = new List<string>();
             allNames.AddRange(names1);
             allNames.AddRange(names2);
-            Assert.IsTrue(allNames.Count == (names1.Count + names2.Count), "Did not work");
+            Assert.IsTrue(allNames.Count == (names1.Count + names2.Count));
         }
 
         [TestMethod()]
@@ -63,9 +63,9 @@ namespace Genesys.Extensions.Test
             ComplexList emptyList = new ComplexList();
 
             emptyList.Clear();
-            Assert.IsTrue(emptyList.Count == 0, "Did not work");
+            Assert.IsTrue(emptyList.Count == 0);
             emptyList.FillRange(fullList);
-            Assert.IsTrue(emptyList.Count == fullList.Count, "Did not work");
+            Assert.IsTrue(emptyList.Count == fullList.Count);
         }
     }
 }

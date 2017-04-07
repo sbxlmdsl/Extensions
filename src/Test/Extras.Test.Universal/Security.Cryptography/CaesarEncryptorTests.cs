@@ -30,9 +30,9 @@ namespace Genesys.Extras.Test
         {
             CaesarEncryptor TestItem = new CaesarEncryptor();
             var encryptedString = TestItem.Encrypt("Test");
-            Assert.IsTrue(encryptedString == "bQB%2BAIwAjQA%3D", "Did not work");
+            Assert.IsTrue(encryptedString == "bQB%2BAIwAjQA%3D");
             var decryptedString = TestItem.Decrypt(encryptedString);
-            Assert.IsTrue(decryptedString == "Test", "Did not work");
+            Assert.IsTrue(decryptedString == "Test");
         }                
     }
 }

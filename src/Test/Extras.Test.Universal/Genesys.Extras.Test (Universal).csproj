@@ -43,7 +43,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Json" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -62,6 +61,8 @@
     <Compile Include="Collections\KeyValueListStringTests.cs" />
     <Compile Include="Collections\KeyValuePairSafeTests.cs" />
     <Compile Include="Collections\ListSafeTests.cs" />
+    <Compile Include="Configuration\ConnectionStringSafeTests.cs" />
+    <Compile Include="Configuration\ApplicationSettingsSafeTests.cs" />
     <Compile Include="Media\RGBStandardInfoTests.cs" />
     <Compile Include="Media\RGBByteInfoTests.cs" />
     <Compile Include="Net.HttpRequest\HttpClientBuilderTests.cs" />

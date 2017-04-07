@@ -34,18 +34,18 @@ namespace Genesys.Extras.Test
         [TestMethod()]
         public void Serialization_Xml_Serialize()
         {
-            XmlSerializer serializer = new XmlSerializer();
+            var serializer = new XmlSerializer<MyClass>();
             MyClass testClass = new MyClass();
-            var deserializedData = serializer.Serialize<MyClass>(testClass);
-            Assert.IsTrue(deserializedData == MyClass.XmlData, "Did not work");
+            var deserializedData = serializer.Serialize(testClass);
+            Assert.IsTrue(deserializedData == MyClass.XmlData);
         }
 
         [TestMethod()]
         public void Serialization_Xml_Deserialize()
         {
-            XmlSerializer serializer = new XmlSerializer();
-            MyClass serializedData = serializer.Deserialize<MyClass>(MyClass.XmlData);
-            Assert.IsTrue(serializedData.MyProperty == new MyClass().MyProperty, "Did not work");
+            var serializer = new XmlSerializer<MyClass>();
+            MyClass serializedData = serializer.Deserialize(MyClass.XmlData);
+            Assert.IsTrue(serializedData.MyProperty == new MyClass().MyProperty);
         }
     }
 }

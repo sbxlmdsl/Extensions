@@ -54,7 +54,7 @@ namespace Genesys.Extras.Test
             kvList.Add(1, 100.00);
             kvList.Add(2, 200.00);
             kvList.Remove(1);
-            Assert.IsTrue(kvList.Count == 1, "Did not work");
+            Assert.IsTrue(kvList.Count == 1);
         }        
 
         [TestMethod()]
@@ -63,7 +63,7 @@ namespace Genesys.Extras.Test
             KeyValueListSafe<int, double> kvList = new KeyValueListSafe<int, double>();
             kvList.Add(1, 100.00);
             kvList.Add(2, 200.00);
-            Assert.IsTrue(kvList.GetValue(2) == 200.00, "Did not work");
+            Assert.IsTrue(kvList.GetValue(2) == 200.00);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Genesys.Extras.Test
             ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
             HttpRequestPutString request = new HttpRequestPutString(configuration.AppSettingValue("MyWebService") + "/HomeApi");
             dataOut = await request.SendAsync();
-            Assert.IsTrue(request.Response.IsSuccessStatusCode == true, "Did not work");
+            Assert.IsTrue(request.Response.IsSuccessStatusCode == true);
         }
 
         [TestMethod()]
@@ -45,7 +45,7 @@ namespace Genesys.Extras.Test
             ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
             HttpRequestPut<object> request = new HttpRequestPut<object>(configuration.AppSettingValue("MyWebService") + "/HomeApi");
             dataOut = await request.SendAsync();
-            Assert.IsTrue(request.Response.IsSuccessStatusCode == true, "Did not work");
+            Assert.IsTrue(request.Response.IsSuccessStatusCode == true);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Genesys.Extras.Test
             kvList.Add("Key1", "Value1");
             kvList.Add("Key2", "Value2");
             kvList.Remove("Key1");
-            Assert.IsTrue(kvList.Count == 1, "Did not work");
+            Assert.IsTrue(kvList.Count == 1);
         }
 
         [TestMethod()]
@@ -62,7 +62,7 @@ namespace Genesys.Extras.Test
             KeyValueListString kvList = new KeyValueListString();
             kvList.Add("Key1", "Value1");
             kvList.Add("Key2", "Value2");
-            Assert.IsTrue(kvList.GetValue("Key1") != TypeExtension.DefaultString, "Did not work");
+            Assert.IsTrue(kvList.GetValue("Key1") != TypeExtension.DefaultString);
         }
     }
 }   

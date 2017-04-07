@@ -29,10 +29,10 @@ namespace Genesys.Extras.Test
         public void Net_Mime_ContentTypes()
         {
             // Structure of Http content types
-            Assert.IsTrue(ContentTypes.Types.ApplicationUnknown == "application/unknown", "Did not work");
+            Assert.IsTrue(ContentTypes.Types.ApplicationUnknown == "application/unknown");
 
             ContentTypes x = new ContentTypes();
-            Assert.IsTrue(x.Count > 0, "Did not work");
+            Assert.IsTrue(x.Count > 0);
         }
     }
 }

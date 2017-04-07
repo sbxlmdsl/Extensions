@@ -29,70 +29,30 @@ namespace Genesys.Extras.Test
     /// ConfigurationManagerSafe Tests
     /// </summary>
     [TestClass()]
-    public partial class ConfigurationManagerSafeTests
+    public partial class ConnectionStringSafeTests
     {
-        /// <summary>
-        /// Connection strings in safe version of configuration manager
-        /// </summary>
-        [TestMethod()]
-        public void Configuration_ConfigurationManagerSafe_AppSettings()
-        {
-            AppSettingSafe itemToTest = new AppSettingSafe();
-            ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
-
-            itemToTest = configuration.AppSetting("TestAppSetting");
-            Assert.IsTrue(itemToTest.Value != TypeExtension.DefaultString);
-        }
-
         /// <summary>
         /// Read connection information for embedded databases (on devices, primarily)
         /// </summary>
         [TestMethod()]
-        public void Configuration_ConfigurationManagerSafe_ConnectionStrings()
+        public void Configuration_ConnectionStringSafe()
         {
-            var itemToTest = new ConnectionStringSafe();
-            var configuration = ConfigurationManagerSafeTests.Create();
+            ConnectionStringSafe itemToTest = new ConnectionStringSafe();
+            ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
 
-            // Validity
-            itemToTest.Value = "Invalid Connection String!!!";
-            Assert.IsTrue(itemToTest.IsValid == false);
             // ADO
             itemToTest = configuration.ConnectionString("TestADOConnection");
+            Assert.IsTrue(itemToTest.Value != TypeExtension.DefaultString);
+            itemToTest.EDMXFileName = "TestEDMXFile";
             Assert.IsTrue(itemToTest.ToString("EF") != TypeExtension.DefaultString);
-            Assert.IsTrue(itemToTest.IsADO == true);
-            Assert.IsTrue(itemToTest.IsEF == false);
-            Assert.IsTrue(itemToTest.IsValid == true);
-            Assert.IsTrue(itemToTest.ConnectionStringType == ConnectionStringSafe.ConnectionStringTypes.ADO);
             Assert.IsTrue(itemToTest.ToEF(this.GetType()) != TypeExtension.DefaultString);
             // EF
             itemToTest = configuration.ConnectionString("TestEFConnection");
+            Assert.IsTrue(itemToTest.Value != TypeExtension.DefaultString);
             Assert.IsTrue(itemToTest.ToString("ADO") != TypeExtension.DefaultString);
-            Assert.IsTrue(itemToTest.IsEF == true);
-            Assert.IsTrue(itemToTest.IsADO == false);
-            Assert.IsTrue(itemToTest.IsValid == true);
-            Assert.IsTrue(itemToTest.ConnectionStringType == ConnectionStringSafe.ConnectionStringTypes.EF);
-            Assert.IsTrue(itemToTest.ToEF(this.GetType()) != TypeExtension.DefaultString);
+            Assert.IsTrue(itemToTest.ToADO() != TypeExtension.DefaultString);
         }
-
-        /// <summary>
-        /// Universal cant access ConfigurationManager directly. 
-        ///  This method uses the ConfigurationManager to get data, then returns as a cross-platform friendly array
-        /// </summary>
-        /// <returns></returns>
-        public static string[,] AppSettingsGet()
-        {
-            var itemToConvert = ConfigurationManager.AppSettings ?? new NameValueCollection();
-            string[,] returnValue = new string[itemToConvert.Count, 2];
-
-            for (var count = 0; count < itemToConvert.Count; count++)
-            {
-                returnValue[count, 0] = itemToConvert.Keys[count];
-                returnValue[count, 1] = itemToConvert[count];
-            }
-
-            return returnValue;
-        }
-
+        
         /// <summary>
         /// Universal cant access ConfigurationManager directly. 
         ///  This method uses the ConfigurationManager to get data, then returns as a cross-platform friendly array
@@ -111,16 +71,5 @@ namespace Genesys.Extras.Test
 
             return returnValue;
         }
-
-        /// <summary>
-        /// Constructs a current instance of .config AppSettings and ConnectionStrings nodes
-        /// Universal/Core does not support ConfigurationManager, so have to construct using Universal friendly means
-        /// </summary>
-        /// <returns></returns>
-        public static ConfigurationManagerSafe Create()
-        {
-            return new ConfigurationManagerSafe(ConfigurationManagerSafeTests.AppSettingsGet(), ConfigurationManagerSafeTests.ConnectionStringsGet());
-        }
-
     }
 }

@@ -29,35 +29,35 @@ namespace Genesys.Extensions.Test
         public void DateTime_Tomorrow()
         {
             DateTime date = DateTime.Now;
-            Assert.IsTrue(date.Tomorrow().Day == DateTime.Now.AddDays(1).Day, "Did not work");
+            Assert.IsTrue(date.Tomorrow().Day == DateTime.Now.AddDays(1).Day);
         }
 
         [TestMethod()]
         public void DateTime_Yesterday()
         {
             DateTime date = DateTime.Now;
-            Assert.IsTrue(date.Yesterday().Day == DateTime.Now.AddDays(-1).Day, "Did not work");
+            Assert.IsTrue(date.Yesterday().Day == DateTime.Now.AddDays(-1).Day);
         }
 
         [TestMethod()]
         public void DateTime_FirstDayOfMonth()
         {
             DateTime date = new DateTime(2016, 8, 15);
-            Assert.IsTrue(date.FirstDayOfMonth().Day == 1, "Did not work");
+            Assert.IsTrue(date.FirstDayOfMonth().Day == 1);
         }
 
         [TestMethod()]
         public void DateTime_LastDayOfMonth()
         {
             DateTime date = new DateTime(2016, 8, 15);
-            Assert.IsTrue(date.LastDayOfMonth().Day == 31, "Did not work");
+            Assert.IsTrue(date.LastDayOfMonth().Day == 31);
         }
 
         [TestMethod()]
         public void DateTime_IsSavable()
         {
             DateTime date = new DateTime(1700, 1, 1);
-            Assert.IsTrue(date.IsSavable() == false, "Did not work");
+            Assert.IsTrue(date.IsSavable() == false);
         }
     }
 }

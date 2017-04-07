@@ -21,6 +21,11 @@ using System;
 using Genesys.Extras.Collections;
 using Genesys.Extensions;
 using System.Reflection;
+using System.Linq;
+using Genesys.Extras.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Genesys.Extras.Configuration
 {
@@ -28,7 +33,7 @@ namespace Genesys.Extras.Configuration
     /// Container class for connection strings
     /// </summary>
     [CLSCompliant(true)]
-    public class ConnectionStringSafe : KeyValuePairString, IFormattable
+    public class ConnectionStringSafe : KeyValuePairString, IFormattable, INotifyPropertyChanged
     {
         /// <summary>
         /// Element names
@@ -67,21 +72,34 @@ namespace Genesys.Extras.Configuration
             /// </summary>
             public const string Value = "connectionString";
         }
-        
+
         /// <summary>
         /// Types of apps that can consume a .config file
         /// </summary>
         public enum ConnectionStringTypes
         {
             /// <summary>
+            /// Empty
+            /// </summary>
+            Empty = 0x0,
+            /// <summary>
             /// ADO Data access
             /// </summary>
-            ADO = 0,
+            ADO = 0x1,
             /// <summary>
             /// Entity Framework data access
             /// </summary>
-            EF = 1
+            EF = 0x2,
+            /// <summary>
+            /// Invalid string
+            /// </summary>
+            Invalid = 0x4
         }
+
+        /// <summary>
+        /// Mask of EF connection string
+        /// </summary>
+        private const string maskSQLExpress = @"data source=.\SQLEXPRESS;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|{0}.mdf;User Instance=true";
 
         /// <summary>
         /// Mask of EF connection string
@@ -94,10 +112,25 @@ namespace Genesys.Extras.Configuration
         private const string maskADO = @"{0}";
 
         /// <summary>
-        /// ConnectionString.
-        /// Use .Value instead. This is exclusively for System.Configuration.ConfigurationManager backward compatibility.
+        /// EDMXFileName
         /// </summary>
-        public string Connectionstring { get { return Value; } }
+        public string EDMXFileName { get; set; } = TypeExtension.DefaultString;
+
+        /// <summary>
+        /// Determines type of connection string: ADO or EF
+        /// </summary>
+        /// <returns></returns>
+        public ConnectionStringTypes ConnectionStringType { get; private set; } = ConnectionStringTypes.Empty;
+
+        /// <summary>
+        /// key of this pair
+        /// </summary>
+        public override StringMutable Key { get { return keyField; } set { SetField(ref keyField, value); } }
+
+        /// <summary>
+        /// Value of this pair
+        /// </summary>
+        public override StringMutable Value { get { return valueField; } set { SetField(ref valueField, value); } }
 
         /// <summary>
         /// Constructor
@@ -107,7 +140,7 @@ namespace Genesys.Extras.Configuration
         /// <summary>
         /// Constructor
         /// </summary>
-        public ConnectionStringSafe(KeyValuePairString item) : base(item.Key, item.Value) { }
+        public ConnectionStringSafe(KeyValuePairString item) : this(item.Key, item.Value) { }
 
         /// <summary>
         /// Constructor
@@ -115,53 +148,101 @@ namespace Genesys.Extras.Configuration
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <remarks></remarks>
-        public ConnectionStringSafe(string key, string value) : base(key, value) { }
-        
-        /// <summary>
-        /// EDMXFileName
-        /// </summary>
-        public string EDMXFileName { get; set; } = TypeExtension.DefaultString;
+        public ConnectionStringSafe(string key, string value) : base()
+        {
+            Key = key;
+            Value = value;
+        }
 
         /// <summary>
-        /// Determines type of connection string: ADO or EF
+        /// Property changed event handler for INotifyPropertyChanged
         /// </summary>
-        /// <returns></returns>
-        public ConnectionStringTypes ConnectionStringType
-        {
-            get
-            {
-                if (base.Value.Contains(".csdl") && base.Value.Contains(".ssdl") && base.Value.Contains(".msl"))
-                { return ConnectionStringTypes.EF; } else { return ConnectionStringTypes.ADO; }
-            }
-        }
-        
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
-        /// Is an EF connection string?
+        /// Property changed event for INotifyPropertyChanged
+        /// </summary>
+        /// <param name="propertyName">String name of property</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            ConnectionStringValueChanged();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Sets the property data as well as fired OnPropertyChanged() for INotifyPropertyChanged
+        /// </summary>
+        /// <typeparam name="TField"></typeparam>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        protected bool SetField<TField>(ref TField field, TField value,
+        [CallerMemberName] string propertyName = null)
+        {
+            var returnValue = TypeExtension.DefaultBoolean;
+            if (EqualityComparer<TField>.Default.Equals(field, value) == false)
+            {
+                field = value;
+                OnPropertyChanged(propertyName);
+                returnValue = true;
+            }
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Determine time and validity of new conneciton string data
+        /// </summary>
+        private void ConnectionStringValueChanged()
+        {
+            string[] metadataKeys = { ".csdl", ".ssdl", ".msl" }; // EF  Only
+            string[] serverKeys = { "data source", "server", "address", "addr", "network address" }; // EF and ADO
+            string[] databaseKeys = { "initial catalog", "database" }; // EF and ADO
+            string[] fileKeys = { "attachdbfilename", "extended properties", "initial file name" }; // EF and ADO 
+            string compareValue = this.Value.ToLowerInvariant();
+
+            if (metadataKeys.Any(compareValue.Contains)) ConnectionStringType = ConnectionStringTypes.EF;
+            else if (serverKeys.Any(compareValue.Contains) && (databaseKeys.Any(compareValue.Contains) || fileKeys.Any(compareValue.Contains))) ConnectionStringType = ConnectionStringTypes.ADO;
+            else ConnectionStringType = ConnectionStringTypes.Invalid;
+        }
+
+        /// <summary>
+        /// Is an ADO connection string?
         /// </summary>
         /// <returns></returns>
-        public bool IsEF()
-        {
-            return (this.ConnectionStringType == ConnectionStringTypes.EF);
-        }
+        public bool IsADO { get { return (ConnectionStringType == ConnectionStringTypes.ADO); } }
 
         /// <summary>
         /// Is an EF connection string?
         /// </summary>
         /// <returns>True if this is an ADO connection string</returns>
-        public bool IsADO()
+        public bool IsEF { get { return (ConnectionStringType == ConnectionStringTypes.EF); } }
+
+        /// <summary>
+        /// Tests the connection string to see if is valid
+        ///  Does not test the database existence. Only string keywords
+        /// </summary>
+        public bool IsValid { get { return (ConnectionStringType != ConnectionStringTypes.Empty && ConnectionStringType != ConnectionStringTypes.Invalid); } }
+
+        /// <summary>
+        /// returns currently loaded connection string
+        /// </summary>
+        /// <returns>Connection string in default (current value) format, not converted.</returns>
+        public override string ToString()
         {
-            return (this.ConnectionStringType == ConnectionStringTypes.ADO);
+            return this.ToString("G");
         }
 
         /// <summary>
         /// Formats data according to requesting format
         /// For returning ADO-style connection string from EF format: Assumes "provider connection string=" is the last key in the "connectionString=" value
         /// </summary>
-        /// <param name="format">EF, ADO</param>
+        /// <param name="format">G (as-is), EF (EF format), ADO (ADO format)</param>
         /// <param name="formatProvider">ICustomFormatter compatible class</param>
         /// <returns>Name field formatted in common combinations (EF, ADO)</returns>
         public string ToString(string format, IFormatProvider formatProvider = null)
         {
+            var returnValue = Value;
             if (formatProvider != null)
             {
                 ICustomFormatter fmt = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
@@ -170,62 +251,54 @@ namespace Genesys.Extras.Configuration
             switch (format)
             {
                 case "EF":
-                    if (this.IsEF() == true)
-                    { return Value; } 
-                    else { return String.Format(maskEF, EDMXFileName, this.Value); }
+                    if (IsEF == true)
+                    { returnValue = Value; } else { returnValue = String.Format(maskEF, EDMXFileName, Value).Replace("&quot;", "'"); }
+                    break;
                 case "ADO":
-                    if (this.IsADO() == true)
-                    { return Value; } 
-                    else {
-                        var cleansed = String.Format("{0}{1}", valueField.Value.Replace("\"", "").Replace("&quot;", "").RemoveLast(";"), ";");
+                    if (IsADO == true)
+                    { returnValue = Value; } else
+                    {
+                        var cleansed = String.Format("{0}{1}", valueField.Value.Replace("\"", "").Replace("'", "").RemoveLast(";"), ";");
                         var beginPhrase = "provider connection string=";
                         return cleansed.SubstringRight(cleansed.Length - (cleansed.IndexOf(beginPhrase) + beginPhrase.Length));
                     }
-                default: return base.ToString();
+                    break;
+                default:
+                    returnValue = Value;
+                    break;
             }
+            return returnValue;
         }
 
         /// <summary>
-        /// Returns ADO-style connection string from EF.
-        /// Assumes "provider connection string=" is the last key in the "connectionString=" value
+        /// Converts from ADO or EF raw connection strings to EF format
         /// </summary>
-        /// <returns></returns>
-
-        /// <summary>
-        /// Converts from ADO/EF raw connection strings to EF format
-        /// </summary>
-        /// <param name="dataAccessObject">Data access object. This object is used to format the EF filename from dataAccessObject.GetTypeInfo().Namespace</param>
-        /// <returns></returns>
+        /// <param name="dataAccessObject">Defines {namespace}.edmx EF connection string configuration. Namespace string generated from: dataAccessObject.GetTypeInfo().Namespace.Replace(".", TypeExtension.DefaultString)</param>
+        /// <returns>{namespace}.edmx connection string configuration based on Type dataAccessObject's namespace. </returns>
         public string ToEF(Type dataAccessObject)
         {
-            var returnValue = TypeExtension.DefaultString;
+            var returnValue = this.Value;
 
-            if (this.IsEF() == false)
+            if (IsEF == false)
             {
                 EDMXFileName = dataAccessObject.GetTypeInfo().Namespace.Replace(".", TypeExtension.DefaultString);
                 returnValue = this.ToString("EF");
-            } else
-            {
-                returnValue = this.Value;
             }
 
             return returnValue;
         }
 
         /// <summary>
-        /// Converts from EF raw connection strings to ADO format
+        /// Converts from EF or ADO raw connection strings to ADO format
         /// </summary>
         /// <returns></returns>
         public string ToADO()
         {
-            var returnValue = TypeExtension.DefaultString;
+            var returnValue = this.Value;
 
-            if (this.IsADO() == false)
+            if (this.IsADO == false)
             {
                 returnValue = this.ToString("ADO");
-            } else
-            {
-                returnValue = this.Value;
             }
 
             return returnValue;

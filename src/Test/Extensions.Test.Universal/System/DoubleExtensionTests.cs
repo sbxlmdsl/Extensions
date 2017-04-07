@@ -30,7 +30,7 @@ namespace Genesys.Extensions.Test
             double original = 10.00;
             decimal castedValue = TypeExtension.DefaultDecimal;
             castedValue = original.ToDecimal();
-            Assert.IsTrue(castedValue == (decimal)original, "Did not work");
+            Assert.IsTrue(castedValue == (decimal)original);
         }
     }
 }

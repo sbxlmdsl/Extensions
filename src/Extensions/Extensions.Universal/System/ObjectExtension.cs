@@ -1,20 +1,9 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="ObjectExtension.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -33,6 +22,20 @@ namespace Genesys.Extensions
     {
         /// <summary>
         /// Gets the string value of an attribute that implements IAttributeValue
+        /// Overload for int
+        /// </summary>
+        /// <typeparam name="TAttribute">Attribute to get the value</typeparam>
+        /// <param name="item">Object containing the attribute</param>
+        /// <param name="notFoundValue">Will use this string if no attribute is found</param>
+        /// <returns>Value, or passed notFoundValue if not found</returns>
+        public static int GetAttributeValue<TAttribute>(this object item, int notFoundValue) where TAttribute : Attribute, IAttributeValue<int>
+        {
+            return item.GetAttributeValue<TAttribute, int>(notFoundValue);
+        }
+
+        /// <summary>
+        /// Gets the string value of an attribute that implements IAttributeValue
+        /// Overload for string
         /// </summary>
         /// <typeparam name="TAttribute">Attribute to get the value</typeparam>
         /// <param name="item">Object containing the attribute</param>
