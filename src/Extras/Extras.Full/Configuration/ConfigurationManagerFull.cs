@@ -1,10 +1,21 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="ConfigurationManagerSafeFull.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
 // 
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -22,27 +33,6 @@ namespace Genesys.Extras.Configuration
     [CLSCompliant(true)]
     public class ConfigurationManagerFull : ConfigurationManagerSafe
     {
-        /// <summary>
-        /// All application settings in the referenced config file
-        /// </summary>
-        public new static AppSettingList AppSettings
-        {
-            get
-            {
-                return new ConfigurationManagerFull().appSettingsField;
-            }
-        }
-
-        /// <summary>
-        /// All connection strings in the referenced config file
-        /// </summary>
-        public new static ConnectionStringList ConnectionStrings
-        {
-            get
-            {
-                return new ConfigurationManagerFull().connectionStringsField;
-            }
-        }
         /// <summary>
         /// Types of applications that can consume a .config file
         /// </summary>
@@ -103,7 +93,7 @@ namespace Genesys.Extras.Configuration
             // ConnectionStringSettingsCollection is difficult to work with and is sealed, so cant extend. Just convert to array manually.
             foreach(ConnectionStringSettings connection in connectionStrings ?? new ConnectionStringSettingsCollection())
             {
-                connectionStringsField.Add(connection.Name, connection.ConnectionString);
+                base.ConnectionStrings.Add(connection.Name, connection.ConnectionString);
             }                
         }
         
@@ -121,11 +111,11 @@ namespace Genesys.Extras.Configuration
                 catch (NullReferenceException) { if (ThrowException) throw; }                        
             foreach (string Item in appSettings)
             {
-                appSettingsField.Add(new AppSettingSafe(Item, appSettings.GetValues(Item).FirstOrDefault()));
+                base.AppSettings.Add(new AppSettingSafe(Item, appSettings.GetValues(Item).FirstOrDefault()));
             }
             foreach (System.Configuration.ConnectionStringSettings Item in connectionStrings)
             {
-                connectionStringsField.Add(new ConnectionStringSafe(Item.Name, Item.ConnectionString));
+                base.ConnectionStrings.Add(new ConnectionStringSafe(Item.Name, Item.ConnectionString));
             }
         }
     }

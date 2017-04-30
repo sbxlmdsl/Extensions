@@ -1,9 +1,20 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Serializer.cs" company="Genesys Source">
+//-----------------------------------------------------------------------
+// <copyright file="JsonSerializer.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -13,6 +24,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using Genesys.Extensions;
 using Genesys.Extras.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Genesys.Extras.Serialization
 {
@@ -27,7 +39,7 @@ namespace Genesys.Extras.Serialization
         /// Gets or sets a DateTimeFormat that defines the culturally appropriate format of displaying dates and times.
         /// Default is ISO 8601 DateTime Format. Does not default to microsoft Date()
         /// </summary>
-        public DateTimeFormat DateTimeFormat { get; set; } = new DateTimeFormat("yyyy-MM-dd'T'HH:mm:ss");
+        public DateTimeFormat DateTimeFormatString { get; set; } = new DateTimeFormat(DateTimeExtension.Formats.ISO8601F) { DateTimeStyles = System.Globalization.DateTimeStyles.RoundtripKind };
 
         /// <summary>
         /// Gets or sets the data contract JSON serializer settings to emit type information.
@@ -50,6 +62,7 @@ namespace Genesys.Extras.Serialization
         /// <param name="objectToSerialize"></param>
         /// <returns></returns>
         /// <remarks></remarks>
+        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public override string Serialize(T objectToSerialize)
         {
             var returnValue = TypeExtension.DefaultString;
@@ -58,7 +71,7 @@ namespace Genesys.Extras.Serialization
             try
             {
                 if (objectToSerialize == null && this.EmptyStringAndNullSupported == false) { throw new System.ArgumentNullException("Passed parameter is null. Unable to serialize null objects."); }
-                serializer = new DataContractJsonSerializer(objectToSerialize.GetType(), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = this.DateTimeFormat, KnownTypes = this.KnownTypes });
+                serializer = new DataContractJsonSerializer(objectToSerialize.GetType(), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = this.DateTimeFormatString, KnownTypes = this.KnownTypes });
                 using (MemoryStream stream = new MemoryStream())
                 {
                     serializer.WriteObject(stream, objectToSerialize);
@@ -91,7 +104,7 @@ namespace Genesys.Extras.Serialization
             try
             {
                 if (stringToDeserialize == TypeExtension.DefaultString && this.EmptyStringAndNullSupported == false) { throw new System.ArgumentNullException("Passed parameter is empty. Unable to deserialize empty strings."); }
-                serializer = new DataContractJsonSerializer(typeof(T), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = this.DateTimeFormat, KnownTypes = this.KnownTypes });
+                serializer = new DataContractJsonSerializer(typeof(T), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = this.DateTimeFormatString, KnownTypes = this.KnownTypes });
                 bytes = Encoding.Unicode.GetBytes(stringToDeserialize);
                 using (MemoryStream stream = new MemoryStream(bytes))
                 {

@@ -69,7 +69,7 @@ namespace Genesys.Extras.Net
         /// Constructs only the HttpGet endpoint, for complex parameters or format
         /// </summary>
         /// <param name="fullUrlWithParameters">Url path with parameter for the HttpGet endpoint only</param>
-        public EndpointInfo(string fullUrlWithParameters)
+        public EndpointInfo(Uri fullUrlWithParameters)
         {
             GetEndpoint = new HttpGetEndpoint<TDataInOut>(fullUrlWithParameters);
             PutEndpoint = new HttpPutEndpoint<TDataInOut>(fullUrlWithParameters);
@@ -92,7 +92,7 @@ namespace Genesys.Extras.Net
         /// <param name="id">ID of the request</param>
         /// <param name="urlMask">Mask to be used to form the endpoint url</param>
         public HttpGetEndpoint(string urlRoot, string controllerName, int id, string urlMask = "{0}/{1}/{2}") 
-            : base(String.Format(urlMask, urlRoot, controllerName, id))
+            : base(new Uri(String.Format(urlMask, urlRoot, controllerName, id), UriKind.RelativeOrAbsolute))
         { }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Genesys.Extras.Net
         /// Default convention: urlRoot/controllerName/id
         /// </summary>
         /// <param name="fullUrlWithParameters">Fully formed url to the endpoint</param>
-        public HttpGetEndpoint(string fullUrlWithParameters) : base(fullUrlWithParameters)
+        public HttpGetEndpoint(Uri fullUrlWithParameters) : base(fullUrlWithParameters)
         {
             Url = fullUrlWithParameters;
         }
@@ -122,7 +122,7 @@ namespace Genesys.Extras.Net
         /// <param name="controllerName">Controller accepting requests</param>
         /// <param name="dataIn">Data to be sent in the request</param>
         public HttpPutEndpoint(string urlRoot, string controllerName, TDataInOut dataIn)
-            : base(String.Format(HttpPutEndpoint<TDataInOut>.urlMask, urlRoot, controllerName), dataIn)
+            : base(new Uri(String.Format(HttpPutEndpoint<TDataInOut>.urlMask, urlRoot, controllerName), UriKind.RelativeOrAbsolute), dataIn)
         { }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Genesys.Extras.Net
         /// Default convention: urlRoot/controllerName/id
         /// </summary>
         /// <param name="fullUrlWithParameters">Fully formed url to the endpoint</param>
-        public HttpPutEndpoint(string fullUrlWithParameters) : base(fullUrlWithParameters)
+        public HttpPutEndpoint(Uri fullUrlWithParameters) : base(fullUrlWithParameters)
         {
             Url = fullUrlWithParameters;
         }
@@ -152,7 +152,7 @@ namespace Genesys.Extras.Net
         /// <param name="controllerName">Controller accepting requests</param>
         /// <param name="dataIn">Data to be sent in the request</param>
         public HttpPostEndpoint(string urlRoot, string controllerName, TDataInOut dataIn)
-            : base(String.Format(HttpPostEndpoint<TDataInOut>.urlMask, urlRoot, controllerName), dataIn)
+            : base(new Uri(String.Format(HttpPostEndpoint<TDataInOut>.urlMask, urlRoot, controllerName), UriKind.RelativeOrAbsolute), dataIn)
         { }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Genesys.Extras.Net
         /// Default convention: urlRoot/controllerName/id
         /// </summary>
         /// <param name="fullUrlWithParameters">Fully formed url to the endpoint</param>
-        public HttpPostEndpoint(string fullUrlWithParameters) : base(fullUrlWithParameters)
+        public HttpPostEndpoint(Uri fullUrlWithParameters) : base(fullUrlWithParameters)
         {
             Url = fullUrlWithParameters;
         }
@@ -180,14 +180,14 @@ namespace Genesys.Extras.Net
         /// <param name="id">ID of the request</param>
         /// <param name="urlMask">Mask to be used to form the endpoint url</param>
         public HttpDeleteEndpoint(string urlRoot, string controllerName, int id, string urlMask = "{0}/{1}/{2}")
-            : base(String.Format(urlMask, urlRoot, controllerName, id))
+            : base(new Uri(String.Format(urlMask, urlRoot, controllerName, id), UriKind.RelativeOrAbsolute))
         { }
 
         /// <summary>
         /// Constructs a default route style HttpDelete endpoint
         /// </summary>
         /// <param name="fullUrlWithParameters">Fully formed url to the endpoint</param>
-        public HttpDeleteEndpoint(string fullUrlWithParameters) : base(fullUrlWithParameters)
+        public HttpDeleteEndpoint(Uri fullUrlWithParameters) : base(fullUrlWithParameters)
         {
             Url = fullUrlWithParameters;
         }

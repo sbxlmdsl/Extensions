@@ -38,12 +38,17 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestDeleteString(string URL) : base(URL) { }
+        public HttpRequestDeleteString(Uri url) : base(url) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestDeleteString(string url, IEncryptor encrptor) : base(url, encrptor) { }
+        public HttpRequestDeleteString(string url) : base(new Uri(url, UriKind.RelativeOrAbsolute)) { }
+
+        /// <summary>
+        /// Construct with data
+        /// </summary>
+        public HttpRequestDeleteString(Uri url, IEncryptor encrptor) : base(url, encrptor) { }
         
         /// <summary>
         /// Synchronously sends a GET request, Receives string response

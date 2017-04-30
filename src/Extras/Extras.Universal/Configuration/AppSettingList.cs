@@ -32,33 +32,44 @@ namespace Genesys.Extras.Configuration
     public class AppSettingList : List<AppSettingSafe>
     {
         /// <summary>
+        /// AppSettings.config key name for MyWebService root url
+        /// </summary>
+        public const string MyWebServiceKeyName = "MyWebService";
+
+        /// <summary>
         /// Name of the Xml node element
         /// </summary>
         public const string ElementName = "add";
+        
         /// <summary>
         /// Name of the attribute key inside Xml node
         /// </summary>
         public const string ElementKeyName = "key";
+        
         /// <summary>
         /// Name of the attribute value inside Xml node
         /// </summary>
         public const string ElementValueName = "value";
 
         private string appSettingsXmlRawField = TypeExtension.DefaultString;
+
         private XDocument appSettingsXDocField = new XDocument();
         
         /// <summary>
         /// Raw XML document
         /// </summary>
         public XDocument AppSettingsXDoc { get { return appSettingsXDocField; } }
+        
         /// <summary>
         /// Status message
         /// </summary>
         public string StatusMessage { get; set; } = TypeExtension.DefaultString;
+
         /// <summary>
         /// Setting to allow duplicates
         /// </summary>
         public bool AllowDuplicates { get; set; } = TypeExtension.DefaultBoolean;
+
         /// <summary>
         /// Setting to throw exception if rules are broken
         /// </summary>

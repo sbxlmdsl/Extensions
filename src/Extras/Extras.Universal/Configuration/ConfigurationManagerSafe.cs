@@ -21,47 +21,33 @@ using System;
 using Genesys.Extensions;
 using System.IO;
 using System.Xml.Linq;
-using System.Collections.Generic;
 
 namespace Genesys.Extras.Configuration
 {
     /// <summary>
-    /// Simulates the System.Configuration.ConfigurationManager class for local XML files with <appSettings></appSettings> nodes.
+    /// Cross-platform emulator of System.Configuration.ConfigurationManager, for local .config files
+    /// Target Projects: Universal Windows 10/8.1, Xamarin Forms, Windows Phone, Portable Class Library
+    /// Usage: From the Application project, 1. Read .config XML from filesystem, 2. Pass xml into constructor as strings
+    ///     var localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+    ///     localFolder = await localFolder.GetFolderAsync("App_Data");
+    ///     var appSettingsFile = await localFolder.GetFileAsync("AppSettings.config");
+    ///     var appSettingsXml = await Windows.Storage.FileIO.ReadTextAsync(appSettingsFile);
+    ///     var connectStringsFile = await localFolder.GetFileAsync("ConnectionStrings.config");
+    ///     var connectStringsXml = await Windows.Storage.FileIO.ReadTextAsync(connectStringsFile);
+    ///     var configManager = new ConfigurationManagerSafe(appSettingsXml, connectStringsXml);
     /// </summary>
     [CLSCompliant(true)]
-    public class ConfigurationManagerSafe
+    public class ConfigurationManagerSafe : IConfigurationManager
     {
-        /// <summary>
-        /// AppSettings
-        /// </summary>
-        protected AppSettingList appSettingsField = new AppSettingList();
-
-        /// <summary>
-        /// ConnectionStrings
-        /// </summary>
-        protected ConnectionStringList connectionStringsField = new ConnectionStringList();
-
         /// <summary>
         /// All application settings in the referenced config file
         /// </summary>
-        public static AppSettingList AppSettings
-        {
-            get
-            {
-                return new ConfigurationManagerSafe().appSettingsField;
-            }
-        }
+        public AppSettingList AppSettings { get; } = new AppSettingList();
 
         /// <summary>
         /// All connection strings in the referenced config file
         /// </summary>
-        public static ConnectionStringList ConnectionStrings
-        {
-            get
-            {
-                return new ConfigurationManagerSafe().connectionStringsField;
-            }
-        }
+        public ConnectionStringList ConnectionStrings { get; } = new ConnectionStringList();
 
         /// <summary>
         /// ThrowException
@@ -79,30 +65,39 @@ namespace Genesys.Extras.Configuration
         public ConfigurationManagerSafe() : base() { ThrowException = true; }
 
         /// <summary>
-        /// Constructor that accepts Stream, for .Net Core/PCL/Universal apps
+        /// Constructor that accepts AppSettings and ConnectionStrings XML data in string form
+        /// Usage: From the Application project, 1. Read .config XML from filesystem, 2. Pass xml into constructor as strings
+        ///     var localFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+        ///     localFolder = await localFolder.GetFolderAsync("App_Data");
+        ///     var appSettingsFile = await localFolder.GetFileAsync("AppSettings.config");
+        ///     var appSettingsXml = await Windows.Storage.FileIO.ReadTextAsync(appSettingsFile);
+        ///     var connectStringsFile = await localFolder.GetFileAsync("ConnectionStrings.config");
+        ///     var connectStringsXml = await Windows.Storage.FileIO.ReadTextAsync(connectStringsFile);
+        ///     var configManager = new ConfigurationManagerSafe(appSettingsXml, connectStringsXml);
+        /// </summary>
+        /// <param name="appSettings">Raw XML from AppSettings.config</param>
+        /// <param name="connectionStrings">Raw XML from ConnectionStrings.config</param>
+        public ConfigurationManagerSafe(string appSettings, string connectionStrings) : this()
+        {
+            AppSettings = new AppSettingList(appSettings);
+            ConnectionStrings = new ConnectionStringList(connectionStrings);
+        }
+
+        /// <summary>
+        /// Constructor that accepts Stream, for .NET Core/PCL/Universal apps
         /// </summary>
         /// <param name="configFile">Raw XML from Web.config, AppSettings.config and ConnectionStrings.config</param>
         public ConfigurationManagerSafe(Stream configFile) : this()
         {
             XDocument xdoc = configFile.ToXDocument();
 
-            appSettingsField = new AppSettingList(xdoc.ToString());
-            connectionStringsField = new ConnectionStringList(xdoc.ToString());
+            AppSettings = new AppSettingList(xdoc.ToString());
+            ConnectionStrings = new ConnectionStringList(xdoc.ToString());
         }
 
         /// <summary>
-        /// Constructor that accepts ConfigurationManager.AppSettings and ConfigurationManager.ConnectionStrings
-        /// </summary>
-        /// <param name="appSettingsXml">Raw XML from AppSettings.config</param>
-        /// <param name="connectionStringsXml">Raw XML from ConnectionStrings.config</param>
-        public ConfigurationManagerSafe(string appSettingsXml, string connectionStringsXml) : this()
-        {
-            appSettingsField = new AppSettingList(appSettingsXml);
-            connectionStringsField = new ConnectionStringList(connectionStringsXml);
-        }
-
-        /// <summary>
-        /// Constructor that accepts ConfigurationManager.AppSettings and ConfigurationManager.ConnectionStrings
+        /// Constructor that accepts AppSettings and ConnectionStrings XML data in array form
+        /// This method is to support ConfigurationManagerFull() construction
         /// </summary>
         /// <param name="appSettings">ConfigurationManager.AppSettings.ToArraySafe()</param>
         /// <param name="connectionStrings">ConfigurationManager.ConnectionStrings.ToArraySafe()</param>
@@ -111,12 +106,12 @@ namespace Genesys.Extras.Configuration
             connectionStrings = connectionStrings ?? new string[0, 2];
             for (var itemCount = 0; itemCount < connectionStrings.GetLength(0); itemCount++)
             {
-                connectionStringsField.Add(connectionStrings[itemCount, 0], connectionStrings[itemCount, 1]);
+                ConnectionStrings.Add(connectionStrings[itemCount, 0], connectionStrings[itemCount, 1]);
             }
             appSettings = appSettings ?? new string[0, 2];
             for (var itemCount = 0; itemCount < appSettings.GetLength(0); itemCount++)
             {
-                appSettingsField.Add(appSettings[itemCount, 0], appSettings[itemCount, 1]);
+                AppSettings.Add(appSettings[itemCount, 0], appSettings[itemCount, 1]);
             }
         }
 
@@ -127,7 +122,7 @@ namespace Genesys.Extras.Configuration
         /// <returns>App setting that matches the key</returns>
         public AppSettingSafe AppSetting(string key)
         {
-            AppSettingSafe ReturnData = appSettingsField.Find(x => x.Key == key).DirectCastSafe<AppSettingSafe>();
+            AppSettingSafe ReturnData = AppSettings.Find(x => x.Key == key).DirectCastSafe<AppSettingSafe>();
 
             if (ThrowException && ReturnData.Value == TypeExtension.DefaultString)
             {
@@ -154,7 +149,7 @@ namespace Genesys.Extras.Configuration
         /// <returns>Value contents</returns>
         public ConnectionStringSafe ConnectionString(string key)
         {
-            ConnectionStringSafe ReturnData = connectionStringsField.Find(x => x.Key == key).DirectCastSafe<ConnectionStringSafe>();
+            ConnectionStringSafe ReturnData = ConnectionStrings.Find(x => x.Key == key).DirectCastSafe<ConnectionStringSafe>();
 
             if (ThrowException && ReturnData.Value == TypeExtension.DefaultString)
             {

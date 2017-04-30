@@ -2,12 +2,24 @@
 // <copyright file="DateTimeExtension.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
 // 
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Globalization;
 
 namespace Genesys.Extensions
 {
@@ -17,6 +29,45 @@ namespace Genesys.Extensions
     [CLSCompliant(true)]
     public static class DateTimeExtension
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public struct Formats
+        {
+            /// <summary>
+            /// ISO 8601 datetime with seconds precision
+            /// </summary>
+            public static string ISO8601 = @"yyyy-MM-dd'T'HH':'mm':'ss";
+
+            /// <summary>
+            /// ISO 8601 datetime with 3 milliseconds precision
+            /// </summary>
+            public static string ISO8601F = @"yyyy-MM-dd'T'HH':'mm':'ss'.'fff";
+        }
+
+        /// <summary>
+        /// Converts the value of the current System.DateTime object to its equivalent string
+        ///  representation using the specified format and culture-specific format information.
+        /// </summary>
+        /// <param name="item">Date to add a day</param>
+        /// <returns>DateTime exactly one day from the original date.</returns>
+        public static string ToString(this DateTime item)
+        {
+            return item.ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Converts the value of the current System.DateTime object to its equivalent string
+        ///  representation using the specified format and culture-specific format information.
+        /// </summary>
+        /// <param name="item">Date to add a day</param>
+        /// <param name="formatString">A standard or custom date and time format string</param>
+        /// <returns>DateTime exactly one day from the original date.</returns>
+        public static string ToString(this DateTime item, string formatString)
+        {
+            return item.ToString(formatString, CultureInfo.InvariantCulture);
+        }
+
         /// <summary>
         /// Tomorrow from date
         /// </summary>
@@ -44,7 +95,7 @@ namespace Genesys.Extensions
         /// <returns>1st day of the passed DateTime.</returns>
         public static DateTime FirstDayOfMonth(this DateTime item)
         {
-            return new DateTime(item.Year, item.Month, 1);
+            return new DateTime(item.Year, item.Month, 1, 00, 00, 00, 000, DateTimeKind.Utc);
         }
 
         /// <summary>
@@ -54,7 +105,7 @@ namespace Genesys.Extensions
         /// <returns>Last day of the passed DateTime.</returns>
         public static DateTime LastDayOfMonth(this DateTime item)
         {
-            return new DateTime(item.Year, item.Month, DateTime.DaysInMonth(item.Year, item.Month));
+            return new DateTime(item.Year, item.Month, DateTime.DaysInMonth(item.Year, item.Month), 00, 00, 00, 000, DateTimeKind.Utc);
         }
         
         /// <summary>
@@ -68,7 +119,7 @@ namespace Genesys.Extensions
             var sign = weekdays < 0 ? -1 : 1;
             var unsignedDays = Math.Abs(weekdays);
             var weekdaysAdded = 0;
-            DateTime returnValue = TypeExtension.DefaultDate;
+            var returnValue = TypeExtension.DefaultDate;
 
             while (weekdaysAdded < unsignedDays)
             {
@@ -111,9 +162,9 @@ namespace Genesys.Extensions
         /// <returns>True for if the date can be saved to SQL Server.</returns>
         public static bool IsSavable(this DateTime item)
         {
-            DateTime sqlMinimumDate = new DateTime(1753, 01, 01); // Minimum Date SQL Accepts
-            DateTime sqlMaximumDate = new DateTime(9999, 01, 01); // Maximum Date SQL Accepts
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var sqlMinimumDate = new DateTime(1753, 01, 01, 00, 00, 00, 000, DateTimeKind.Utc); // Minimum Date SQL Accepts
+            var sqlMaximumDate = new DateTime(9999, 01, 01, 00, 00, 00, 000, DateTimeKind.Utc); // Maximum Date SQL Accepts
+            var returnValue = TypeExtension.DefaultBoolean;
             var minResult = DateTime.Compare(item, sqlMinimumDate);
             var maxResult = DateTime.Compare(item, sqlMaximumDate);
 

@@ -59,7 +59,7 @@ namespace Genesys.Extras.Text.Cleansing
         {
             // Get properties with CleanseFor() attribute
             IEnumerable<PropertyInfo> props = classToCleanse.GetPropertiesByAttribute(typeof(CleanseFor));
-            foreach (PropertyInfo item in props)
+            foreach (var item in props)
             {
                 var ValueToSet = item.GetValue(classToCleanse, null).ToStringSafe();
                 Cleanser cleanserWorker = CleanserFactory.Construct(item.GetAttributeValue<CleanseFor, CleanserIDs>(CleanserIDs.Default), ValueToSet);

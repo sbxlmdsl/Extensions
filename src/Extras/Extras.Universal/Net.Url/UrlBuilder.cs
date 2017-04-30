@@ -1,14 +1,30 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="UrlBuilder.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
 using Genesys.Extensions;
 using Genesys.Extras.Text.Encoding;
+using System.Collections.Generic;
+using System.Text;
+using Genesys.Extras.Collections;
+using Genesys.Extras.Text;
+using System.Linq;
 
 namespace Genesys.Extras.Net
 {
@@ -19,71 +35,109 @@ namespace Genesys.Extras.Net
     /// <returns></returns>
     /// <remarks></remarks>
     [CLSCompliant(true)]
-    public class UrlBuilder : UriBuilder
+    public class UrlBuilder : UriBuilder, IFormattable
     {
         /// <summary>
-        /// Default Url value when initialized or in lieu of an exception for invalid Uri format scenarios
+        /// [scheme]://[user]:[password]@[host/authority]:[port]/[path];[params]?[querystring]#[fragment]
         /// </summary>
-        public virtual string DefaultUrl { get; set; } = "http://localhost";
+        public struct UriMasks
+        {
+            /// <summary>
+            /// [root]/[path]
+            /// </summary>
+            public static string Root { get; } = @"{0}/{1}";
+
+            /// <summary>
+            /// [root]/[path]?[querystring]
+            /// </summary>
+            public static string RootWithQuerystring { get; } = @"{0}/{0}?{0}";
+
+            /// <summary>
+            /// [root]/[path]#[fragment]
+            /// </summary>
+            public static string RootWithFragment { get; } = @"{0}/{1}#{2}";
+
+            /// <summary>
+            /// [root]/[path]/param-1/.../param-n
+            /// </summary>
+            public static string RootWithParameterBinding { get; } = @"[root]/[path]/param-1/.../param-n";
+
+            /// <summary>
+            /// [scheme]://[user]:[password]@[host/authority]:[port]/[path];[params]?[querystring]#[fragment]
+            /// </summary>
+            public static string Full { get; } = @"[scheme]://[user]:[password]@[host/authority]:[port]/[path];[params]?[querystring]#[fragment]";
+        }
+            
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UrlBuilder() : base() { }
+        public UrlBuilder() 
+            : base() { }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UrlBuilder(string fullUrl) : base(fullUrl) { }
+        public UrlBuilder(string fullUrl) 
+            : base(fullUrl) { }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UrlBuilder(string rootUrl, string path) : this(rootUrl.RemoveLast("/") + "/" + path.RemoveLast("/")) { }
+        public UrlBuilder(string rootUrl, string path) 
+            : this(rootUrl.AddLast("/") + path.RemoveLast("/")) { }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UrlBuilder(string rootUrl, string controller, string action) : this(UrlBuilder.Format(rootUrl, controller, action)) { }
+        public UrlBuilder(string rootUrl, string controller, string action) 
+            : base(rootUrl.AddLast("/") + controller.AddLast("/") + action.AddLast("/")) { }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public UrlBuilder(string rootUrl, string controller, string action, string parametersWithNoLeadingQuestionMark) : this(rootUrl.RemoveLast("/"), controller, action)
+        public UrlBuilder(string rootUrl, string controller, string action, string parametersWithNoLeadingQuestionMark) 
+            : this(rootUrl, controller, action)
         {
             Query = parametersWithNoLeadingQuestionMark;
         }
 
         /// <summary>
-        /// handles URL formation issues
+        /// Constructor that formats the entire URL, complete with PROTOCOL://SERVER_NAME:PORT/APPLICATION_PATH
+        /// No trailing slash.
         /// </summary>
-        /// <returns></returns>
-        public override string ToString()
+        /// <param name="protocol">Protocol for Url. I.e. http</param>
+        /// <param name="serverName">Server name for Url. I.e. www.YourDomain.com</param>
+        /// <param name="port">Port for Url. I.e. 80</param>
+        /// <param name="applicationPath">Application path for Url. I.e. /Home/Index</param>
+        /// <returns>Constructed url</returns>
+        public UrlBuilder(string protocol, string serverName, int port, string applicationPath) 
+            : base(protocol, serverName, port, applicationPath)
         {
-            var returnValue = TypeExtension.DefaultString;
-            try
-            {
-                returnValue = base.ToString();
-            }
-            catch
-            {
-                returnValue = this.DefaultUrl;
-            }
-            return returnValue;
         }
 
         /// <summary>
-        /// Formats full URL based on Mvc pattern segments
+        /// Constructor that formats the entire URL, complete with PROTOCOL://SERVER_NAME:PORT/APPLICATION_PATH/Parameter1/Parameter2/.../ParameterN/
         /// </summary>
-        /// <param name="rootUrl"></param>
-        /// <param name="controller"></param>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        public static string Format(string rootUrl, string controller, string action)
+        /// <param name="urlNoQuerystring">Url with everything but parameters and punctuation</param>
+        /// <param name="parameters">Collection of parameters to add to Url</param>
+        /// <returns>Constructed url</returns>
+        public UrlBuilder(string urlNoQuerystring, IEnumerable<string> parameters) 
+            : base(urlNoQuerystring.AddLast("/") + String.Join("|", parameters).Replace("||", "|%20|").Replace("|", "/"))
         {
-            return String.Format("{0}/{1}/{2}", rootUrl.RemoveLast("/"), controller, action);
         }
 
+        /// <summary>
+        /// Constructor that formats the entire URL, complete with PROTOCOL://SERVER_NAME:PORT/APPLICATION_PATH/Parameter1/Parameter2/.../ParameterN/
+        /// </summary>
+        /// <param name="urlNoQuerystring">Url with everything but parameters and punctuation</param>
+        /// <param name="parameters">Collection of parameters to add to Url</param>
+        /// <returns>Constructed url</returns>
+        public UrlBuilder(string urlNoQuerystring, KeyValueListString parameters) 
+            : base(urlNoQuerystring.AddLast("/") +parameters.ToString("QS"))
+        {
+        }
+        
         /// <summary>
         /// Encodes to URL friendly
         /// </summary>
@@ -102,6 +156,41 @@ namespace Genesys.Extras.Net
         public static string Decode(string originalString)
         {
             return UrlEncoder.Decode(originalString);
+        }
+
+        /// <summary>
+        /// Forms url in G format, which is PROTOCOL://SERVER_NAME:PORT/APPLICATION_PATH
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.ToString("G");
+        }
+
+        /// <summary>
+        /// Formats data according to requesting format
+        /// </summary>
+        /// <param name="format">G: PROTOCOL://SERVER_NAME:PORT/APPLICATION_PATH</param>
+        /// <param name="formatProvider">ICustomFormatter compatible class</param>
+        /// <returns>Key and/or Value formatted</returns>
+        public string ToString(string format, IFormatProvider formatProvider = null)
+        {
+            var returnValue = base.ToString();
+            if (formatProvider != null)
+            {
+                ICustomFormatter fmt = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
+                if (fmt != null) { return fmt.Format(format, this, formatProvider); }
+            }
+            switch (format)
+            {
+                case "G":
+                    returnValue = base.ToString();
+                    break;
+                default:
+                    returnValue = base.ToString();
+                    break;
+            }
+            return returnValue.RemoveLast("/");
         }
     }
 }

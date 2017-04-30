@@ -1,9 +1,20 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="StringExtension.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -24,8 +35,8 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static bool TryParseBoolean(this string item, bool notFoundValue = false)
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
-            bool convertValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
+            var convertValue = TypeExtension.DefaultBoolean;
 
             if (String.IsNullOrEmpty(item) == false)
             {                
@@ -50,8 +61,8 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static short TryParseInt16(this string item, short notFoundValue = -1)
         {
-            short returnValue = TypeExtension.DefaultInt16;
-            short convertValue = TypeExtension.DefaultInt16;
+            var returnValue = TypeExtension.DefaultInt16;
+            var convertValue = TypeExtension.DefaultInt16;
 
             // Try to parse it out
             if (String.IsNullOrEmpty(item) == false)
@@ -95,8 +106,8 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static long TryParseInt64(this string item, long notFoundValue = -1)
         {
-            long returnValue = TypeExtension.DefaultInteger;
-            long convertValue = TypeExtension.DefaultInteger;
+            var returnValue = TypeExtension.DefaultInt64;
+            var convertValue = TypeExtension.DefaultInt64;
 
             if (String.IsNullOrEmpty(item) == false)
             {
@@ -117,8 +128,7 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static Guid TryParseGuid(this string item, Guid notFoundValue =  default(Guid))
         {
-            Guid returnValue = TypeExtension.DefaultGuid;
-            Guid convertValue = TypeExtension.DefaultGuid;
+            var returnValue = TypeExtension.DefaultGuid;
 
             if (String.IsNullOrEmpty(item) == false)
             {
@@ -143,8 +153,8 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static decimal TryParseDecimal(this string item, decimal notFoundValue = 0m)
         {
-            decimal returnValue = TypeExtension.DefaultDecimal;
-            decimal convertValue = TypeExtension.DefaultDecimal;
+            var returnValue = TypeExtension.DefaultDecimal;
+            var convertValue = TypeExtension.DefaultDecimal;
 
             if (String.IsNullOrEmpty(item) == false)
             {
@@ -164,9 +174,9 @@ namespace Genesys.Extensions
         /// <param name="notFoundValue">Value if not found</param>
         /// <returns>Converted or not found value of the source item</returns>
         public static double TryParseDouble(this string item, double notFoundValue = 0.0)
-        {           
-            double returnValue = TypeExtension.DefaultDouble;
-            double convertValue = TypeExtension.DefaultDouble;
+        {
+            var returnValue = TypeExtension.DefaultDouble;
+            var convertValue = TypeExtension.DefaultDouble;
 
             if (String.IsNullOrEmpty(item) == false)
             {
@@ -187,7 +197,7 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static TEnum TryParseEnum<TEnum>(this string item, TEnum notFoundValue)
         {
-            TEnum returnValue = notFoundValue;
+            var returnValue = notFoundValue;
 
             try
             {
@@ -217,9 +227,9 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value (01/01/1900) of the source item</returns>
         public static DateTime TryParseDateTime(this string item)
         {
-            DateTime notFoundValue = TypeExtension.DefaultDate;
-            DateTime returnValue = TypeExtension.DefaultDate;
-            DateTime convertDate = TypeExtension.DefaultDate;
+            var notFoundValue = TypeExtension.DefaultDate;
+            var returnValue = TypeExtension.DefaultDate;
+            var convertDate = TypeExtension.DefaultDate;
 
             item = item.Trim();
             if (item.IsInteger() == true & item.Length == 8)
@@ -247,9 +257,9 @@ namespace Genesys.Extensions
         /// <returns>Converted or not found value of the source item</returns>
         public static DateTime TryParseTime(this string item)
         {
-            DateTime notFoundValue = TypeExtension.DefaultDate;
-            DateTime returnValue = TypeExtension.DefaultDate;
-            DateTime convertDate = TypeExtension.DefaultDate;
+            var notFoundValue = TypeExtension.DefaultDate;
+            var returnValue = TypeExtension.DefaultDate;
+            var convertDate = TypeExtension.DefaultDate;
 
             item = item.Trim();
             if ((String.IsNullOrEmpty(item) == false))
@@ -262,7 +272,32 @@ namespace Genesys.Extensions
 
             return returnValue;
         }
-        
+
+        /// <summary>
+        /// Converts string to Uri
+        /// </summary>
+        /// <param name="item">Source item to convert</param>
+        /// <returns>Converted value if success. 
+        /// Failure returns http://localhost:80, value of TypeExtension.DefaultUri</returns>
+        public static Uri TryParseUri(this string item)
+        {
+            var returnValue = TypeExtension.DefaultUri;
+
+            if (String.IsNullOrEmpty(item) == false)
+            {
+                try
+                {
+                    returnValue = new Uri(item);
+                }
+                catch
+                {
+                    returnValue = TypeExtension.DefaultUri;
+                }
+            }
+
+            return returnValue;
+        }
+
         /// <summary>
         /// Pulls right characters from a String
         /// </summary>
@@ -389,7 +424,7 @@ namespace Genesys.Extensions
                 }
                 if (word.Length > 0)
                 {
-                    firstLetter = char.ToUpper(word[0]);
+                    firstLetter = char.ToUpperInvariant(word[0]);
                     returnValue = returnValue + firstLetter + word.Substring(1) + parseCharacter;
                 }
             }
@@ -410,7 +445,7 @@ namespace Genesys.Extensions
             var returnValue = TypeExtension.DefaultString;
             string[] words = null;
             var word = TypeExtension.DefaultString;
-            char firstLetter = TypeExtension.DefaultChar;
+            var firstLetter = TypeExtension.DefaultChar;
             var count = TypeExtension.DefaultInteger;
 
             words = uncasedString.Split(parseCharacter.ToCharArray());
@@ -521,7 +556,7 @@ namespace Genesys.Extensions
         /// <returns>True/False if found characters in position</returns>
         public static bool IsFirst(this string item, string firstCharacters)
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
 
             if (item.Length >= firstCharacters.Length)
             {
@@ -542,7 +577,7 @@ namespace Genesys.Extensions
         /// <returns>True/False if found characters in position</returns>
         public static bool IsLast(this string item, string lastCharacters)
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
 
             if (item.Length >= lastCharacters.Length)
             {
@@ -563,7 +598,7 @@ namespace Genesys.Extensions
         /// <returns>True if this is an email address (or if empty.)</returns>
         public static bool IsEmail(this string item, bool emptyStringOK = true)
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
 
             item = item.Trim();
             if ((emptyStringOK == true & item.Length == 0))
@@ -591,8 +626,8 @@ namespace Genesys.Extensions
         /// <returns>True if this is an integer.</returns>
         public static bool IsInteger(this string item)
         {
-            long result = TypeExtension.DefaultInteger;
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var result = TypeExtension.DefaultInteger;
+            var returnValue = TypeExtension.DefaultBoolean;
 
             if (item.TryParseInt64() != TypeExtension.DefaultInteger)
             {
@@ -609,7 +644,7 @@ namespace Genesys.Extensions
         /// <returns>True if this is all upper case.</returns>
         public static bool IsCaseUpper(this string item)
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
 
             if (item == item.ToUpperInvariant())
             {
@@ -626,7 +661,7 @@ namespace Genesys.Extensions
         /// <returns>True if this is all lower case.</returns>
         public static bool IsCaseLower(this string item)
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
 
             if (item == item.ToLowerInvariant())
             {

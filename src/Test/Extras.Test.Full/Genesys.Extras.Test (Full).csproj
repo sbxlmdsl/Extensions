@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationManagerFullTests.cs" />
+    <Compile Include="Web.Http\RouteMappingTests.cs" />
     <Compile Include="Text\TextCleanserTests.cs" />
     <Compile Include="IO\FileSearcherTests.cs" />
     <Compile Include="Security.Cryptography\DesEncryptorTests.cs" />

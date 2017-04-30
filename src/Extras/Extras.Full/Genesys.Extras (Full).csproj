@@ -26,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Genesys.Extras.Full.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,7 +40,7 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -88,6 +89,7 @@
     <Compile Include="Web.Http\MvcController.cs" />
     <Compile Include="Web.Http\MvcModelBinder.cs" />
     <Compile Include="Web.Http\RouteConstraints.cs" />
+    <Compile Include="Web.Http\RouteMapping.cs" />
     <Compile Include="Web.Http\WebApiController.cs" />
   </ItemGroup>
   <ItemGroup>

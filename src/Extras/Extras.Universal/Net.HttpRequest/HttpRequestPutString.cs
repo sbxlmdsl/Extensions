@@ -43,17 +43,22 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPutString(string url) : base(url) { }
+        public HttpRequestPutString(Uri url) : base(url) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPutString(string url, string dataToSend) : this(url) { DataToSend = dataToSend; }
+        public HttpRequestPutString(string url) : base(new Uri(url, UriKind.RelativeOrAbsolute)) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPutString(string url, string dataToSend, IEncryptor encrptor) : this(url, dataToSend) { Encryptor = Encryptor; }
+        public HttpRequestPutString(Uri url, string dataToSend) : this(url) { DataToSend = dataToSend; }
+
+        /// <summary>
+        /// Construct with data
+        /// </summary>
+        public HttpRequestPutString(Uri url, string dataToSend, IEncryptor encrptor) : this(url, dataToSend) { Encryptor = Encryptor; }
         
         /// <summary>
         /// Sends a GET request, Receives string response

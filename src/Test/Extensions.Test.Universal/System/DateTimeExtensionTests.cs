@@ -1,62 +1,65 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="DateTimeExtensionTests.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Genesys.Extensions.Test
-{
+{   
     [TestClass()]
     public class DateTimeExtensionTests
     {
         [TestMethod()]
+        public void DateTime_ISO8601_FormatStrings()
+        {
+            DateTime defaultDateValue = new DateTime(1900, 01, 01, 00, 00, 00, 000, DateTimeKind.Utc);
+            DateTime defaultShort = TypeExtension.DefaultDate;
+            Assert.IsTrue(defaultDateValue.Ticks == defaultShort.Ticks);
+            Assert.IsTrue(defaultDateValue.ToString() == defaultShort.ToString());
+
+            string ISO8601 = defaultDateValue.ToString(DateTimeExtension.Formats.ISO8601);
+            string ISO8601F = defaultDateValue.ToString(DateTimeExtension.Formats.ISO8601F);
+            Assert.IsTrue(ISO8601.TryParseDateTime().Ticks == ISO8601F.TryParseDateTime().Ticks);
+            Assert.IsTrue(ISO8601.TryParseDateTime().ToString() == ISO8601F.TryParseDateTime().ToString());
+        }
+
+        [TestMethod()]
         public void DateTime_Tomorrow()
         {
-            DateTime date = DateTime.Now;
+            var date = DateTime.Now;
             Assert.IsTrue(date.Tomorrow().Day == DateTime.Now.AddDays(1).Day);
         }
 
         [TestMethod()]
         public void DateTime_Yesterday()
         {
-            DateTime date = DateTime.Now;
+            var date = DateTime.Now;
             Assert.IsTrue(date.Yesterday().Day == DateTime.Now.AddDays(-1).Day);
         }
 
         [TestMethod()]
         public void DateTime_FirstDayOfMonth()
         {
-            DateTime date = new DateTime(2016, 8, 15);
+            var date = new DateTime(2016, 8, 15);
             Assert.IsTrue(date.FirstDayOfMonth().Day == 1);
         }
 
         [TestMethod()]
         public void DateTime_LastDayOfMonth()
         {
-            DateTime date = new DateTime(2016, 8, 15);
+            var date = new DateTime(2016, 8, 15);
             Assert.IsTrue(date.LastDayOfMonth().Day == 31);
         }
 
         [TestMethod()]
         public void DateTime_IsSavable()
         {
-            DateTime date = new DateTime(1700, 1, 1);
+            var date = new DateTime(1700, 1, 1);
             Assert.IsTrue(date.IsSavable() == false);
         }
     }

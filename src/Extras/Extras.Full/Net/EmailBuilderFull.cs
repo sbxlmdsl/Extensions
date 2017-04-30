@@ -1,10 +1,21 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="EmailBuilderFull.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
 // 
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -79,9 +90,9 @@ namespace Genesys.Extras.Net
             /// Returns as array that fills data in the footer
             /// </summary>
             /// <returns>List of strings with fully formed email Html</returns>
-            public List<String> ToList()
+            public List<string> ToList()
             {
-                List<String> returnValue = new List<String>();
+                var returnValue = new List<string>();
                 PublishFooter = true;
                 returnValue.Add(this.ToEmailAddress);
                 returnValue.Add(this.CompanyFriendlyName);
@@ -98,7 +109,7 @@ namespace Genesys.Extras.Net
             public string ToFooter()
             {
                 var returnValue = TypeExtension.DefaultString;
-                TemplateBuilder builder = new TemplateBuilder(Genesys.Extras.Properties.Resources.LegalFooter, this.ToList());
+                var builder = new TemplateBuilder(Genesys.Extras.Properties.Resources.LegalFooter, this.ToList());
                 PublishFooter = true;
                 returnValue = builder.ToString();
                 return returnValue;
@@ -145,16 +156,16 @@ namespace Genesys.Extras.Net
         /// <param name="title"></param>
         /// <param name="contents"></param>
         /// <param name="legal"></param>
-        /// <param name="addressSeperator"></param>
+        /// <param name="addressseparator"></param>
         /// <returns></returns>
-        public KeyValuePair<string, bool> Send(string mailToAddresses, string title, string contents, FooterLegal legal, char addressSeperator = ';')
+        public KeyValuePair<string, bool> Send(string mailToAddresses, string title, string contents, FooterLegal legal, char addressseparator = ';')
         {
-            
-            KeyValuePair<string, bool> returnValue = new KeyValuePair<string, bool>();
+
+            var returnValue = new KeyValuePair<string, bool>();
             System.Collections.Generic.List<string> mailTo = new System.Collections.Generic.List<string>();
 
             // The Mail To Addresses will be separated by ;
-            mailTo = new List<string>(mailToAddresses.Trim().Split(new char[] { addressSeperator }));
+            mailTo = new List<string>(mailToAddresses.Trim().Split(new char[] { addressseparator }));
             returnValue = Send(mailTo, title, contents, legal, SendCompletedCallback, TypeExtension.DefaultString);
 
             // Return success/failure
@@ -170,15 +181,15 @@ namespace Genesys.Extras.Net
         /// <param name="legal"></param>
         /// <param name="callback"></param>
         /// <param name="callbackData"></param>
-        /// <param name="addressSeperator"></param>
+        /// <param name="addressseparator"></param>
         /// <returns>Email addresses and their send status (true or false)</returns>
-        public KeyValuePair<String, Boolean> Send(System.Collections.Generic.List<String> mailToAddresses, string title, string contents, FooterLegal legal, 
-            SendCompletedCallbackDelegate callback, string callbackData, char addressSeperator = ';')
+        public KeyValuePair<String, Boolean> Send(System.Collections.Generic.List<string> mailToAddresses, string title, string contents, FooterLegal legal, 
+            SendCompletedCallbackDelegate callback, string callbackData, char addressseparator = ';')
         {
-            KeyValuePair<String, bool> returnValue = new KeyValuePair<String, bool>();
-            SmtpClient client = new SmtpClient();
+            var returnValue = new KeyValuePair<String, bool>();
+            var client = new SmtpClient();
             var footer = TypeExtension.DefaultString;
-            List<String> toAddresses = new List<String>();
+            var toAddresses = new List<string>();
 
             try
             {
@@ -188,7 +199,7 @@ namespace Genesys.Extras.Net
                     if (emailAddress.IsEmail(false) == true)
                     {
                         // Will get 'from, etc' from .config file
-                        MailMessage OutgoingMail = new MailMessage();
+                        var OutgoingMail = new MailMessage();
                         OutgoingMail.To.Add(new MailAddress(emailAddress));
                         OutgoingMail.Subject = title;
                         OutgoingMail.Body = contents + (legal.PublishFooter ? legal.ToFooter() : TypeExtension.DefaultString);
@@ -227,17 +238,17 @@ namespace Genesys.Extras.Net
         /// <param name="legal"></param>
         /// <param name="callback"></param>
         /// <param name="callbackData"></param>
-        /// <param name="addressSeperator"></param>
+        /// <param name="addressseparator"></param>
         /// <returns></returns>
-        public Dictionary<String, Boolean> SendTemplate(List<KeyValuePair<String, List<String>>> mailToAddressesAndData, string title, string contents,
-                                            FooterLegal legal, SendCompletedCallbackDelegate callback, string callbackData, char addressSeperator = ';')
+        public Dictionary<string, bool> SendTemplate(List<KeyValuePair<string, List<string>>> mailToAddressesAndData, string title, string contents,
+                                            FooterLegal legal, SendCompletedCallbackDelegate callback, string callbackData, char addressseparator = ';')
         {
-            Dictionary<String, Boolean> returnValue = new Dictionary<String, Boolean>();
-            KeyValuePair<String, Boolean> mailResult = new KeyValuePair<String, Boolean>();
-            System.Collections.Generic.List<String> mailTo = new System.Collections.Generic.List<String>();
+            var returnValue = new Dictionary<string, bool>();
+            var mailResult = new KeyValuePair<string, bool>();
+            var mailTo = new List<string>();
             var titleFilled = TypeExtension.DefaultString;
 
-            foreach (KeyValuePair<string, List<String>> Item_loopVariable in mailToAddressesAndData)
+            foreach (var Item_loopVariable in mailToAddressesAndData)
             {
                 mailTo.Clear();
                 mailTo.Add(Item_loopVariable.Key);

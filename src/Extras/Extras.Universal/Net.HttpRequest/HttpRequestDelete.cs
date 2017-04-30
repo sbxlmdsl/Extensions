@@ -47,17 +47,22 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Immutable
         /// </summary>
-        public HttpRequestDelete(string url) : base(url) { }
+        public HttpRequestDelete(Uri url) : base(url) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestDelete(string url, ISerializer<TypeToReceive> deserializer) : this(url) { Deserializer = deserializer; }
+        public HttpRequestDelete(string url) : base(new Uri(url, UriKind.RelativeOrAbsolute)) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestDelete(string url, IEncryptor encrptor) : base(url, encrptor) { }
+        public HttpRequestDelete(Uri url, ISerializer<TypeToReceive> deserializer) : this(url) { Deserializer = deserializer; }
+
+        /// <summary>
+        /// Construct with data
+        /// </summary>
+        public HttpRequestDelete(Uri url, IEncryptor encrptor) : base(url, encrptor) { }
         
         /// <summary>
         /// Sync send and Receive

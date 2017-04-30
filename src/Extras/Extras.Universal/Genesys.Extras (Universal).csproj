@@ -31,6 +31,7 @@
     <DocumentationFile>bin\Debug\Genesys.Extras.Universal.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,7 +45,7 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
@@ -56,9 +57,10 @@
     <Compile Include="Collections\KeyValuePairSafeComparer.cs" />
     <Compile Include="Collections\KeyValuePairString.cs" />
     <Compile Include="Collections\ListSafe.cs" />
-    <Compile Include="Collections\KeyValueListSafe.cs" />
+    <Compile Include="Collections\KeyValueList.cs" />
     <Compile Include="Collections\KeyValueListString.cs" />
     <Compile Include="Collections\KeyValuePairSafe.cs" />
+    <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Mathematics.Geometry\Square.cs" />
     <Compile Include="Mathematics.Geometry\AspectRatio.cs" />
     <Compile Include="Media\RGBStandardInfo.cs" />
@@ -81,10 +83,8 @@
     <Compile Include="Mathematics\AgeCalculator.cs" />
     <Compile Include="Mathematics\Arithmetic.cs" />
     <Compile Include="Net.HttpRequest\HttpVerbSender.cs" />
-    <Compile Include="Net.Http\EndpointInfo.cs" />
     <Compile Include="Net.Mime\ContentType.cs" />
     <Compile Include="Net.Mime\ContentTypes.cs" />
-    <Compile Include="Net.Routing\RouteBuilder.cs" />
     <Compile Include="Net.Url\UrlBuilder.cs" />
     <Compile Include="Net.Url\UrlInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -116,11 +116,7 @@
       <Name>Genesys.Extensions %28Universal%29</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Data">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6\System.Data.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>Call "$(ProjectDir)PostBuild.Bat" "$(TargetDir)" "$(TargetName)"</PostBuildEvent>

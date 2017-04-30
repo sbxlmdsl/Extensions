@@ -62,22 +62,27 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url) : base(url) { }
+        public HttpRequestPut(Uri url) : base(url) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url, TDataIn dataToSend) : base(url) { dataToSendStrong = dataToSend; base.DataToSend = this.Serializer.Serialize(dataToSend); }
+        public HttpRequestPut(string url) : base(new Uri(url, UriKind.RelativeOrAbsolute)) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url, TDataIn dataToSend, IEncryptor encryptor) : this(url, dataToSend) { Encryptor = encryptor; }
+        public HttpRequestPut(Uri url, TDataIn dataToSend) : base(url) { dataToSendStrong = dataToSend; base.DataToSend = this.Serializer.Serialize(dataToSend); }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url, TDataIn dataToSend, List<Type> knownTypes) : this(url, dataToSend) { KnownTypes = knownTypes; }
+        public HttpRequestPut(Uri url, TDataIn dataToSend, IEncryptor encryptor) : this(url, dataToSend) { Encryptor = encryptor; }
+
+        /// <summary>
+        /// Construct with data
+        /// </summary>
+        public HttpRequestPut(Uri url, TDataIn dataToSend, List<Type> knownTypes) : this(url, dataToSend) { KnownTypes = knownTypes; }
 
         /// <summary>
         /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
@@ -112,21 +117,26 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url) : base(url) { }
+        public HttpRequestPut(Uri url) : base(url) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url, TDataInOut dataToSend) : base(url) { dataToSendStrong = dataToSend; base.DataToSend = this.Serializer.Serialize(dataToSend); }
+        public HttpRequestPut(string url) : base(new Uri(url, UriKind.RelativeOrAbsolute)) { }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url, TDataInOut dataToSend, IEncryptor encryptor) : this(url, dataToSend) { Encryptor = encryptor; }
+        public HttpRequestPut(Uri url, TDataInOut dataToSend) : base(url) { dataToSendStrong = dataToSend; base.DataToSend = this.Serializer.Serialize(dataToSend); }
 
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestPut(string url, TDataInOut dataToSend, List<Type> knownTypes) : this(url, dataToSend) { KnownTypes = knownTypes; }
+        public HttpRequestPut(Uri url, TDataInOut dataToSend, IEncryptor encryptor) : this(url, dataToSend) { Encryptor = encryptor; }
+
+        /// <summary>
+        /// Construct with data
+        /// </summary>
+        public HttpRequestPut(Uri url, TDataInOut dataToSend, List<Type> knownTypes) : this(url, dataToSend) { KnownTypes = knownTypes; }
     }
 }

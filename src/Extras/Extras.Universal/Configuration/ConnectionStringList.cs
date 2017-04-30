@@ -129,7 +129,7 @@ namespace Genesys.Extras.Configuration
         /// <remarks></remarks>
         public StringMutable GetValue(StringMutable key)
         {
-            StringMutable returnValue = new StringMutable();
+            var returnValue = new StringMutable();
             var x1 = key == "DefaultConnection" ? true : false;
             returnValue = this.FindSafe(x => x.Key == key.ToString()).Value;
             var key2 = key;

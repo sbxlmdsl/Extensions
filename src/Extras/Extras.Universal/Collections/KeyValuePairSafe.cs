@@ -1,9 +1,20 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="KeyValuePairSafe.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -19,7 +30,7 @@ namespace Genesys.Extras.Collections
     /// <typeparam name="TValue"></typeparam>
     /// <remarks></remarks>
     [CLSCompliant(true)]
-    public class KeyValuePairSafe<TKey, TValue> : IKeyValuePair<TKey, TValue>, IEquatable<KeyValuePairSafe<TKey, TValue>> where TKey : new() where TValue : new()
+    public class KeyValuePairSafe<TKey, TValue> : IKeyValuePair<TKey, TValue>, IEquatable<KeyValuePairSafe<TKey, TValue>>, IFormattable where TKey : new() where TValue : new()
     {
         private int hashCode = TypeExtension.DefaultInteger;
 
@@ -36,12 +47,12 @@ namespace Genesys.Extras.Collections
         /// <summary>
         /// Key, self-initializes to be null safe
         /// </summary>
-        public virtual TKey Key { get { return keyField; } set { keyField = value == null ? new TKey() : value; } }
+        public TKey Key { get { return keyField; } set { keyField = value == null ? new TKey() : value; } }
         
         /// <summary>
         /// Value, self-initializes to be null safe
         /// </summary>
-        public virtual TValue Value { get { return valueField; } set { valueField = value == null ? new TValue() : value; } }
+        public TValue Value { get { return valueField; } set { valueField = value == null ? new TValue() : value; } }
 
         /// <summary>
         /// Constructor
@@ -82,6 +93,50 @@ namespace Genesys.Extras.Collections
         public bool Equals(KeyValuePairSafe<TKey, TValue> other)
         {
             return (Key.ToStringSafe() == other.Key.ToStringSafe() && Value.ToStringSafe() == other.Value.ToStringSafe());
+        }
+
+        /// <summary>
+        /// Returns General format
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.ToString("G");
+        }
+
+        /// <summary>
+        /// Formats data according to requesting format
+        /// </summary>
+        /// <param name="format">G: Key Value, C: Key, Value, EQ: Key=Value, EQS: Key = Value</param>
+        /// <param name="formatProvider">ICustomFormatter compatible class</param>
+        /// <returns>Key and/or Value formatted</returns>
+        public string ToString(string format, IFormatProvider formatProvider = null)
+        {
+            var returnValue = base.ToString();
+            if (formatProvider != null)
+            {
+                ICustomFormatter fmt = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
+                if (fmt != null) { return fmt.Format(format, this, formatProvider); }
+            }
+            switch (format)
+            {
+                case "C":
+                    returnValue = Key.ToString() + ", " + Value.ToString();
+                    break;
+                case "EQ":
+                    returnValue = Key.ToString() + "=" + Value.ToString();
+                    break;
+                case "EQS":
+                    returnValue = Key.ToString() + " = " + Value.ToString();
+                    break;
+                case "G":
+                    returnValue = Key.ToString() + " " + Value.ToString();
+                    break;
+                default:
+                    returnValue = Key.ToString() + " " + Value.ToString();
+                    break;
+            }
+            return returnValue;
         }
     }
 }

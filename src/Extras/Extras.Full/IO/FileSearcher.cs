@@ -1,10 +1,21 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="FileSearcherFull.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
 // 
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -64,7 +75,7 @@ namespace Genesys.Extras.IO
         /// </summary>
         /// <param name="pathsToSearch"></param>
         /// <param name="fileOrMaskToSearch"></param>
-        public FileSearcher(List<String> pathsToSearch, string fileOrMaskToSearch)
+        public FileSearcher(List<string> pathsToSearch, string fileOrMaskToSearch)
             : this()
         {
             foreach (var item in pathsToSearch)
@@ -80,7 +91,7 @@ namespace Genesys.Extras.IO
         /// <param name="pathToSearch"></param>
         /// <param name="fileOrMaskToSearch"></param>
         /// <param name="levelsUpToSearch"></param>
-        public FileSearcher(string pathToSearch, string fileOrMaskToSearch, int levelsUpToSearch) : this(new List<String>() { pathToSearch }, fileOrMaskToSearch, levelsUpToSearch) { }
+        public FileSearcher(string pathToSearch, string fileOrMaskToSearch, int levelsUpToSearch) : this(new List<string>() { pathToSearch }, fileOrMaskToSearch, levelsUpToSearch) { }
 
         /// <summary>
         /// Constructor
@@ -88,13 +99,13 @@ namespace Genesys.Extras.IO
         /// <param name="pathsToSearch"></param>
         /// <param name="fileOrMaskToSearch"></param>
         /// <param name="levelsUpToSearch"></param>
-        public FileSearcher(List<String> pathsToSearch, string fileOrMaskToSearch, int levelsUpToSearch = 2) 
+        public FileSearcher(List<string> pathsToSearch, string fileOrMaskToSearch, int levelsUpToSearch = 2) 
             : this(pathsToSearch, fileOrMaskToSearch)
         {
             DirectoryInfo currentPath;
             ParentLevels = levelsUpToSearch;
             // Add new paths to search
-            foreach (DirectoryInfo item in this.pathsField.ToList())
+            foreach (var item in this.pathsField.ToList())
             {
                 currentPath = new DirectoryInfo(item.ToString());
                 for (var Count = 0; Count < this.ParentLevels; Count++)
@@ -110,10 +121,10 @@ namespace Genesys.Extras.IO
         /// </summary>
         public List<FileInfo> Search()
         {
-            List<FileInfo> returnValue = new List<FileInfo>();
+            var returnValue = new List<FileInfo>();
 
             foundFilesField = new List<FileInfo>();
-            foreach (DirectoryInfo Item in this.Paths)
+            foreach (var Item in this.Paths)
             {
                 foundFilesField.AddRange(Item.GetFiles(this.FileNameOrMask));
             }
@@ -128,7 +139,7 @@ namespace Genesys.Extras.IO
         /// <returns>Drive class for searching</returns>
         private DriveInfo DriveSet(string drive)
         {
-            DriveInfo returnValue = new DriveInfo(@"C:\\");
+            var returnValue = new DriveInfo(@"C:\\");
 
             // Validate and set
             if (Directory.Exists(drive))
@@ -146,10 +157,10 @@ namespace Genesys.Extras.IO
         /// <returns>Drive that matches volume label</returns>
         private DriveInfo DriveGetByVolume(string volumeLabel)
         {
-            DriveInfo returnValue = new DriveInfo(@"C:\\");
-            IEnumerable<DriveInfo> drivesToSearch = DriveInfo.GetDrives();
+            var returnValue = new DriveInfo(@"C:\\");
+            var drivesToSearch = DriveInfo.GetDrives();
 
-            foreach (DriveInfo Item in drivesToSearch)
+            foreach (var Item in drivesToSearch)
             {
                 if (Item.VolumeLabel == volumeLabel)
                 {

@@ -1,20 +1,9 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="StringExtensionTests.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,28 +19,28 @@ namespace Genesys.Extensions.Test
         public void String_SubstringRight()
         {
             var TestItem = TypeExtension.DefaultUri;
-            Assert.IsTrue(TestItem.SubstringRight(1) == TestItem.Substring(TestItem.Length - 1, 1));
+            Assert.IsTrue(TestItem.ToString().SubstringRight(1) == TestItem.ToString().Substring(TestItem.ToString().Length - 1, 1));
         }
 
         [TestMethod()]
         public void String_SubstringLeft()
         {
             var TestItem = TypeExtension.DefaultUri;
-            Assert.IsTrue(TestItem.SubstringLeft(1) == TestItem.Substring(0, 1));
+            Assert.IsTrue(TestItem.ToString().SubstringLeft(1) == TestItem.ToString().Substring(0, 1));
         }
 
         [TestMethod()]
         public void String_SubstringSafe()
         {
             var TestItem = TypeExtension.DefaultUri;
-            Assert.IsTrue(TestItem.SubstringSafe(0, 1).Length == 1);
+            Assert.IsTrue(TestItem.ToString().SubstringSafe(0, 1).Length == 1);
         }
 
         [TestMethod()]
         public void String_RemoveFirst()
         {
             var TestItem = TypeExtension.DefaultUri;
-            Assert.IsTrue(TestItem.RemoveFirst("h").Length == TestItem.Length - 1);
+            Assert.IsTrue(TestItem.ToString().RemoveFirst("h").Length == TestItem.ToString().Length - 1);
         }
 
         [TestMethod()]

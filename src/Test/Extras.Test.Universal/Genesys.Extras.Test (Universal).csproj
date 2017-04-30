@@ -57,6 +57,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Classes\CustomerSearch.cs" />
+    <Compile Include="Classes\Customer.cs" />
     <Compile Include="Collections\KeyValueListSafeTests.cs" />
     <Compile Include="Collections\KeyValueListStringTests.cs" />
     <Compile Include="Collections\KeyValuePairSafeTests.cs" />
@@ -73,12 +75,11 @@
     <Compile Include="Configuration\ConfigurationManagerSafeTests.cs" />
     <Compile Include="Mathematics\AgeCalculatorTests.cs" />
     <Compile Include="Mathematics\ArithmeticTests.cs" />
-    <Compile Include="Net.Http\EndpointInfoTests.cs" />
     <Compile Include="Net.Mime\ContentTypesTests.cs" />
-    <Compile Include="Net.Routing\RouteBuilderTests.cs" />
     <Compile Include="Net.Url\UrlBuilderTests.cs" />
     <Compile Include="Net.Url\UrlInfoTests.cs" />
     <Compile Include="Security.Cryptography\CaesarEncryptorTests.cs" />
+    <Compile Include="Entity\CustomerTests.cs" />
     <Compile Include="Serialization\JsonSerializerGenericTests.cs" />
     <Compile Include="Serialization\SerializerTests.cs" />
     <Compile Include="Serialization\SerializerGenericTests.cs" />

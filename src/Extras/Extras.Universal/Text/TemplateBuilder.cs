@@ -30,7 +30,7 @@ namespace Genesys.Extras.Text
     [CLSCompliant(true)]
     public class TemplateBuilder
     {        
-        private List<String> templateDataField = new List<String>();
+        private List<string> templateDataField = new List<string>();
         private string templateEmptyField = TypeExtension.DefaultString;
         private string templateFilledField = TypeExtension.DefaultString;
         private bool isHTML = TypeExtension.DefaultBoolean;
@@ -51,7 +51,7 @@ namespace Genesys.Extras.Text
         /// <summary>
         /// Constructor
         /// </summary>
-        public TemplateBuilder(string template, List<String> data)
+        public TemplateBuilder(string template, List<string> data)
             : base()
         {
             isHTML = true;
@@ -93,7 +93,7 @@ namespace Genesys.Extras.Text
         /// <returns></returns>
         public bool IsValid()
         {
-            bool returnValue = TypeExtension.DefaultBoolean;
+            var returnValue = TypeExtension.DefaultBoolean;
             for(int count = 0; count < this.templateDataField.Count() - 1; count++ )
             {
                 if (!this.templateEmptyField.Contains("{" + count + "}")) throw new System.Exception("Error merging template and data. Not enough data to fill the template.");

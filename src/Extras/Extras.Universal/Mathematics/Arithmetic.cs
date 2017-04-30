@@ -1,9 +1,20 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="Arithmetic.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -102,7 +113,7 @@ namespace Genesys.Extras.Mathematics
         public static decimal Divide(decimal dividend, decimal divisor)
         {
             // Local variable
-            decimal returnValue = TypeExtension.DefaultDecimal;
+            var returnValue = TypeExtension.DefaultDecimal;
 
             // Perform the divide
             if (divisor > 0)
@@ -121,8 +132,8 @@ namespace Genesys.Extras.Mathematics
         public static decimal AverageDecimal(List<decimal> lineItems)
         {
 
-            decimal returnValue = TypeExtension.DefaultDecimal;
-            decimal Sum = TypeExtension.DefaultDecimal;
+            var returnValue = TypeExtension.DefaultDecimal;
+            var Sum = TypeExtension.DefaultDecimal;
 
             foreach (decimal lineItem in lineItems)
             {
@@ -144,7 +155,7 @@ namespace Genesys.Extras.Mathematics
         /// <returns>Return on investment percentage</returns>
         public static decimal ROI(Decimal currentValue, decimal totalInvested)
         {
-            decimal returnValue = TypeExtension.DefaultDecimal;
+            var returnValue = TypeExtension.DefaultDecimal;
 
             // Calculate
             if (totalInvested != TypeExtension.DefaultDecimal)
@@ -227,7 +238,7 @@ namespace Genesys.Extras.Mathematics
         public static int WidthGet(int originalWidth, int originanHeight, int newHeight)
         {
             var newWidth = TypeExtension.DefaultInteger;
-            decimal multiplier = TypeExtension.DefaultDecimal;
+            var multiplier = TypeExtension.DefaultDecimal;
 
             // Height is only specified, have to calculate width
             multiplier = Arithmetic.Divide(newHeight.ToDecimal(), originanHeight.ToDecimal());

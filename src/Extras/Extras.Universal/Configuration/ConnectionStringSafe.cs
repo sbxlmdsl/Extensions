@@ -125,12 +125,12 @@ namespace Genesys.Extras.Configuration
         /// <summary>
         /// key of this pair
         /// </summary>
-        public override StringMutable Key { get { return keyField; } set { SetField(ref keyField, value); } }
+        public new StringMutable Key { get { return keyField; } set { SetField(ref keyField, value); } }
 
         /// <summary>
         /// Value of this pair
         /// </summary>
-        public override StringMutable Value { get { return valueField; } set { SetField(ref valueField, value); } }
+        public new StringMutable Value { get { return valueField; } set { SetField(ref valueField, value); } }
 
         /// <summary>
         /// Constructor
@@ -240,7 +240,7 @@ namespace Genesys.Extras.Configuration
         /// <param name="format">G (as-is), EF (EF format), ADO (ADO format)</param>
         /// <param name="formatProvider">ICustomFormatter compatible class</param>
         /// <returns>Name field formatted in common combinations (EF, ADO)</returns>
-        public string ToString(string format, IFormatProvider formatProvider = null)
+        public new string ToString(string format, IFormatProvider formatProvider = null)
         {
             var returnValue = Value;
             if (formatProvider != null)
@@ -248,7 +248,7 @@ namespace Genesys.Extras.Configuration
                 ICustomFormatter fmt = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
                 if (fmt != null) { return fmt.Format(format, this, formatProvider); }
             }
-            switch (format)
+            switch (format.ToUpperInvariant())
             {
                 case "EF":
                     if (IsEF == true)
@@ -260,7 +260,7 @@ namespace Genesys.Extras.Configuration
                     {
                         var cleansed = String.Format("{0}{1}", valueField.Value.Replace("\"", "").Replace("'", "").RemoveLast(";"), ";");
                         var beginPhrase = "provider connection string=";
-                        return cleansed.SubstringRight(cleansed.Length - (cleansed.IndexOf(beginPhrase) + beginPhrase.Length));
+                        returnValue = cleansed.SubstringRight(cleansed.Length - (cleansed.IndexOf(beginPhrase) + beginPhrase.Length));
                     }
                     break;
                 default:

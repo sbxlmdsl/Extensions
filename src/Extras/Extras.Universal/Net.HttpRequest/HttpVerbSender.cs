@@ -19,16 +19,27 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Threading.Tasks;
+using Genesys.Extras.Text;
 using Genesys.Extensions;
-using Genesys.Extras.Net;
 
 namespace Genesys.Extras.Net
 {
     /// <summary>
     /// Handles sending HttpRequests to endpoints and receiving a response
     /// </summary>
-    public abstract class HttpVerbSender
+    public class HttpVerbSender
     {
+        /// <summary>
+        /// Event Args for loading and binding new model data
+        /// </summary>
+        public class RequestEventArgs : EventArgs
+        {
+            /// <summary>
+            /// New model data
+            /// </summary>
+            public HttpRequestClient Request { get; set; }
+        }
+
         /// <summary>
         /// Send is about to begin
         /// </summary>
@@ -42,92 +53,25 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// OnSendBegin()
         /// </summary>
-        protected virtual void OnSendBegin() { if (SendBegin != null) { SendBegin(this, EventArgs.Empty); } }
+        public virtual void OnSendBegin(HttpRequestClient request)
+        {
+            if (SendBegin != null)
+            {
+                SendBegin(this, new RequestEventArgs() { Request = request });
+            }
+            Request = request;
+        }
 
         /// <summary>
         /// OnSendEnd()
         /// </summary>
-        protected virtual void OnSendEnd() { if (SendEnd != null) { SendEnd(this, EventArgs.Empty); } }
-
-        /// <summary>
-        /// Parameterless constructor
-        /// </summary>
-        protected HttpVerbSender()
-            : base()
+        public virtual void OnSendEnd(HttpRequestClient request)
         {
-        }
-
-        /// <summary>
-        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task<string> SendGetAsync(string fullUrl)
-        {
-            OnSendBegin();
-            var returnValue = TypeExtension.DefaultString;
-            HttpRequestGetString request = new HttpRequestGetString(fullUrl);
-            returnValue = await request.SendAsync();
-            OnSendEnd();
-
-            return returnValue;
-        }
-
-        /// <summary>
-        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task<TDataOut> SendGetAsync<TDataOut>(string fullUrl) where TDataOut : new()
-        {
-            OnSendBegin();
-            TDataOut returnValue = default(TDataOut);
-            HttpRequestGet<TDataOut> request = new HttpRequestGet<TDataOut>(fullUrl);
-            returnValue = await request.SendAsync();
-            OnSendEnd();
-
-            return returnValue;
-        }
-
-        /// <summary>
-        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task<TDataOut> SendPostAsync<TDataIn, TDataOut>(string fullUrl, TDataIn itemToSend)
-        {
-            OnSendBegin();
-            TDataOut returnValue = default(TDataOut);
-            HttpRequestPost<TDataIn, TDataOut> request = new HttpRequestPost<TDataIn, TDataOut>(fullUrl, itemToSend);
-            returnValue = await request.SendAsync();
-            OnSendEnd();
-
-            return returnValue;
-        }
-
-        /// <summary>
-        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task<TDataOut> SendPutAsync<TDataIn, TDataOut>(string fullUrl, TDataIn itemToSend)
-        {
-            OnSendBegin();
-            TDataOut returnValue = default(TDataOut);
-            HttpRequestPut<TDataIn, TDataOut> request = new HttpRequestPut<TDataIn, TDataOut>(fullUrl, itemToSend);
-            returnValue = await request.SendAsync();
-            OnSendEnd();
-            return returnValue;
-        }
-
-        /// <summary>
-        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
-        /// </summary>
-        /// <returns></returns>
-        protected virtual async Task<TDataOut> SendDeleteAsync<TDataOut>(string fullUrl) where TDataOut : new()
-        {
-            OnSendBegin();
-            TDataOut returnValue = default(TDataOut);
-            HttpRequestDelete<TDataOut> request = new HttpRequestDelete<TDataOut>(fullUrl);
-            returnValue = await request.SendAsync();
-            OnSendEnd();
-            return returnValue;
+            if (SendEnd != null)
+            {
+                SendEnd(this, new RequestEventArgs() { Request = request });
+            }
+            Request = request;
         }
 
         /// <summary>
@@ -135,6 +79,101 @@ namespace Genesys.Extras.Net
         /// </summary>
         /// <param name="sender">Sender of event</param>
         /// <param name="e">Arguments passed to the event handler</param>
-        public delegate void SendBeginEventHandler(object sender, EventArgs e);
+        public delegate void SendBeginEventHandler(object sender, RequestEventArgs e);
+
+        /// <summary>
+        /// Last HttpRequest
+        /// </summary>
+        public HttpRequestClient Request { get; protected set; }
+
+        /// <summary>
+        /// Parameterless constructor
+        /// </summary>
+        public HttpVerbSender()
+            : base()
+        {
+        }
+        
+        /// <summary>
+        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<TDataOut> SendGetAsync<TDataOut>(Uri fullUrl) where TDataOut : new()
+        {
+            var returnValue = default(TDataOut);
+            var request = new HttpRequestGet<TDataOut>(fullUrl);
+
+            OnSendBegin(request);
+            returnValue = await request.SendAsync();
+            OnSendEnd(request);
+
+            return returnValue;
+        }
+        
+        /// <summary>
+        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<TDataOut> SendPostAsync<TDataIn, TDataOut>(Uri fullUrl, TDataIn itemToSend)
+        {            
+            var returnValue = default(TDataOut);
+            var request = new HttpRequestPost<TDataIn, TDataOut>(fullUrl, itemToSend);
+
+            OnSendBegin(request);
+            returnValue = await request.SendAsync();
+            OnSendEnd(request);
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<TDataInOut> SendPostAsync<TDataInOut>(Uri fullUrl, TDataInOut itemToSend)
+        {
+            return await SendPostAsync<TDataInOut, TDataInOut>(fullUrl, itemToSend);
+        }
+        
+        /// <summary>
+        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<TDataOut> SendPutAsync<TDataIn, TDataOut>(Uri fullUrl, TDataIn itemToSend)
+        {            
+            var returnValue = default(TDataOut);
+            var request = new HttpRequestPut<TDataIn, TDataOut>(fullUrl, itemToSend);
+
+            OnSendBegin(request);
+            returnValue = await request.SendAsync();
+            OnSendEnd(request);
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<TDataInOut> SendPutAsync<TDataInOut>(Uri fullUrl, TDataInOut itemToSend)
+        {
+            return await SendPutAsync<TDataInOut, TDataInOut>(fullUrl, itemToSend);
+        }
+        
+        /// <summary>
+        /// Instantiates and transmits all data to the middle tier web service that will execute the workflow
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<bool> SendDeleteAsync(Uri fullUrl)
+        {
+            var returnValue = TypeExtension.DefaultBoolean;
+            var request = new HttpRequestDelete<bool>(fullUrl);
+
+            OnSendBegin(request);
+            returnValue = await request.SendAsync();
+            OnSendEnd(request);
+
+            return returnValue;
+        }        
     }
 }

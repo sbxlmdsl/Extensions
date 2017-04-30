@@ -1,20 +1,9 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="JsonSerializerGenericTests.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -74,15 +63,32 @@ namespace Genesys.Extras.Test
             // Collections, etc
             var personObject = new PersonInfo() { FirstName = "John", LastName = "Doe", BirthDate = new DateTime(1977, 11, 20) };
             var personObjectSerialized = TypeExtension.DefaultString;
-            var personJsonDefaultDate = "{\"BirthDate\":\"\\/Date(248860800000-0800)\\/\",\"FirstName\":\"John\",\"LastName\":\"Doe\"}";
-            var personJsonISODate = "{\"FirstName\":\"John\",\"MiddleName\":\"Michelle\",\"LastName\":\"Doe\",\"BirthDate\":\"1977-11-20T00:00:00\",\"ID\":-1,\"Key\":\"00000000-0000-0000-0000-000000000000\"}";
+            var personDefaultWebAPI = "{\"BirthDate\":\"\\/Date(248860800000-0800)\\/\",\"FirstName\":\"John\",\"LastName\":\"Doe\"}";
+            var personISO8601 = "{\"FirstName\":\"John\",\"MiddleName\":\"Michelle\",\"LastName\":\"Doe\",\"BirthDate\":\"1977-11-20T00:00:00\",\"ID\":-1,\"Key\":\"00000000-0000-0000-0000-000000000000\"}";
+            var personISO8601F = "{\"FirstName\":\"John\",\"MiddleName\":\"Michelle\",\"LastName\":\"Doe\",\"BirthDate\":\"1977-11-20T00:00:00.000\",\"ID\":-1,\"Key\":\"00000000-0000-0000-0000-000000000000\"}";
             var personJsonReSerialized = TypeExtension.DefaultString;
             var personJsonDeserialized = new PersonInfo();
             var serializer = new JsonSerializer<PersonInfo>();
 
             // stringISODate -> object -> string
             serializer = new JsonSerializer<PersonInfo>();
-            personJsonDeserialized = serializer.Deserialize(personJsonISODate);
+            personJsonDeserialized = serializer.Deserialize(personISO8601F);
+            Assert.IsTrue(personJsonDeserialized.FirstName == "John");
+            Assert.IsTrue(personJsonDeserialized.LastName == "Doe");
+            Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20));
+            personJsonReSerialized = serializer.Serialize(personJsonDeserialized);
+            Assert.IsTrue(personJsonReSerialized.Length > 0);
+
+            // ISO8601 (no milliseconds) - Should fail
+            serializer = new JsonSerializer<PersonInfo>();
+            personJsonDeserialized = serializer.Deserialize(personISO8601);
+            Assert.IsFalse(personJsonDeserialized.FirstName == "John");
+            Assert.IsFalse(personJsonDeserialized.LastName == "Doe");
+            Assert.IsFalse(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20));
+
+            // Default: ISO8601F (with milliseconds) - Should work
+            serializer = new JsonSerializer<PersonInfo>();
+            personJsonDeserialized = serializer.Deserialize(personISO8601F);
             Assert.IsTrue(personJsonDeserialized.FirstName == "John");
             Assert.IsTrue(personJsonDeserialized.LastName == "Doe");
             Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20));
@@ -100,14 +106,14 @@ namespace Genesys.Extras.Test
             // stringNONISODate (default date) -> object -> string
             DataContractJsonSerializer defaultSerializer = new DataContractJsonSerializer(typeof(PersonInfo));
             serializer = new JsonSerializer<PersonInfo>();
-            serializer.DateTimeFormat = defaultSerializer.DateTimeFormat;
-            personJsonDeserialized = serializer.Deserialize(personJsonDefaultDate);
+            serializer.DateTimeFormatString = defaultSerializer.DateTimeFormat;
+            personJsonDeserialized = serializer.Deserialize(personDefaultWebAPI);
             Assert.IsTrue(personJsonDeserialized.FirstName == "John");
             Assert.IsTrue(personJsonDeserialized.LastName == "Doe");
             Assert.IsTrue(personJsonDeserialized.BirthDate == new DateTime(1977, 11, 20));
             personJsonReSerialized = serializer.Serialize(personJsonDeserialized);
             Assert.IsTrue(personJsonReSerialized.Length > 0);
-        }        
+        }
 
         [TestMethod()]
         public void Serialization_Json_String()

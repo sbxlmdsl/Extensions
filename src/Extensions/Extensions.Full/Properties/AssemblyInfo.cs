@@ -1,16 +1,16 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Genesys Framework Extensions for .Net Full")]
-[assembly: AssemblyDescription("Genesys Framework Extensions for .Net Full powers your ASP.NET MVC web apps, ASP.NET Web Forms web apps, ASP.NET Web API web services, Win Forms apps, Console apps, Windows Service apps and WPF desktop apps.")]
+[assembly: AssemblyTitle("Genesys Framework Extensions for .NET Full")]
+[assembly: AssemblyDescription("Genesys Framework Extensions for .NET Full powers your ASP.NET MVC web apps, ASP.NET Web Forms web apps, ASP.NET Web API web services, Win Forms apps, Console apps, Windows Service apps and WPF desktop apps.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Genesys Source")]
-[assembly: AssemblyProduct("Genesys Framework Extensions for .Net Full")]
-[assembly: AssemblyCopyright("Copyright © 2017 Genesys Source. All rights reserved")]
+[assembly: AssemblyProduct("Genesys Framework Extensions for .NET Full")]
+[assembly: AssemblyCopyright("Copyright � 2017 Genesys Source. All rights reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

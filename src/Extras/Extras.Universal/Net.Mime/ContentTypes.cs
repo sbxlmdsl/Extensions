@@ -169,7 +169,7 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Loads content types into this object
         /// </summary>
-        protected virtual void loadData()
+        protected void loadData()
         {
             // Unknown (similar to application/octet-stream, but avoids chrome throwing exception)
             Add(Types.ApplicationUnknown);

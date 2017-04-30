@@ -1,20 +1,9 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="HttpRequestBaseTests.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      Licensed to the Apache Software Foundation (ASF) under one or more 
-//      contributor license agreements.  See the NOTICE file distributed with 
-//      this work for additional information regarding copyright ownership.
-//      The ASF licenses this file to You under the Apache License, Version 2.0 
-//      (the 'License'); you may not use this file except in compliance with 
-//      the License.  You may obtain a copy of the License at 
-//       
-//        http://www.apache.org/licenses/LICENSE-2.0 
-//       
-//       Unless required by applicable law or agreed to in writing, software  
-//       distributed under the License is distributed on an 'AS IS' BASIS, 
-//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
-//       See the License for the specific language governing permissions and  
-//       limitations under the License. 
+//      All rights are reserved. Reproduction or transmission in whole or in part, in
+//      any form or by any means, electronic, mechanical or otherwise, is prohibited
+//      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using Genesys.Extensions;
@@ -33,9 +22,9 @@ namespace Genesys.Extras.Test
         [TestMethod()]
         public async Task Net_HttpRequestGetString_SendAsync()
         {
-            ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
+            var configuration = ConfigurationManagerSafeTests.ConfigurationManagerSafeConstruct();
             var dataOut = TypeExtension.DefaultString;            
-            HttpRequestGetString request = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi");
+            var request = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi");
             dataOut = await request.SendAsync();
             Assert.IsTrue(request.Response.IsSuccessStatusCode == true);
         }
@@ -43,52 +32,19 @@ namespace Genesys.Extras.Test
         [TestMethod()]
         public async Task Net_HttpRequestGet_SendAsync()
         {
-            ConfigurationManagerSafe configuration = ConfigurationManagerSafeTests.Create();
+            var configuration = ConfigurationManagerSafeTests.ConfigurationManagerSafeConstruct();
             object dataOut;
-            HttpRequestGet<object> request = new HttpRequestGet<object>(configuration.AppSettingValue("MyWebService") + "/HomeApi");
+            var request = new HttpRequestGet<object>(configuration.AppSettingValue("MyWebService") + "/HomeApi");
             dataOut = await request.SendAsync();
             Assert.IsTrue(request.Response.IsSuccessStatusCode == true);
         }
-
-        public async Task Net_HttpRequestGet_ComplexObject()
+        
+        public async Task Net_HttpRequestGet_CustomerSearch()
         {
-            var url = ConfigurationManagerSafeTests.Create().AppSettingValue("MyWebService");
-            var request = new HttpRequestGet<CustomerSearchModel>(url);
+            var url = ConfigurationManagerSafeTests.ConfigurationManagerSafeConstruct().AppSettingValue("MyWebService");
+            var request = new HttpRequestGet<CustomerSearch>(url + "/CustomerSearch/-1?firstName=i&lastName=");
             var returnValue = await request.SendAsync();
             Assert.IsTrue(returnValue.Results.Count > 0);
-        }
-
-        public class CustomerSearchModel
-        {
-            public int ID { get; set; } = TypeExtension.DefaultInteger;
-            public Guid Key { get; set; } = TypeExtension.DefaultGuid;
-            public string FirstName { get; set; } = TypeExtension.DefaultString;
-            public string MiddleName { get; set; } = TypeExtension.DefaultString;
-            public string LastName { get; set; } = TypeExtension.DefaultString;
-            public DateTime BirthDate { get; set; } = TypeExtension.DefaultDate;
-            public int GenderID { get; set; } = TypeExtension.DefaultInteger;
-            public Guid CustomerTypeKey { get; set; } = TypeExtension.DefaultGuid;
-            public List<CustomerModel> Results { get; set; } = new List<CustomerModel>();
-            public CustomerSearchModel()
-                    : base()
-            {
-            }
-        }
-
-        public class CustomerModel
-        {
-            public int ID { get; set; } = TypeExtension.DefaultInteger;
-            public Guid Key { get; set; } = TypeExtension.DefaultGuid;
-            public string FirstName { get; set; } = TypeExtension.DefaultString;
-            public string MiddleName { get; set; } = TypeExtension.DefaultString;
-            public string LastName { get; set; } = TypeExtension.DefaultString;
-            public DateTime BirthDate { get; set; } = TypeExtension.DefaultDate;
-            public int GenderID { get; set; } = TypeExtension.DefaultInteger;
-            public Guid CustomerTypeKey { get; set; } = TypeExtension.DefaultGuid;
-
-            public CustomerModel()
-            {
-            }            
         }
     }
 }

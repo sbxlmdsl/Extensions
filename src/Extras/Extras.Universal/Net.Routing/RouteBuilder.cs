@@ -36,7 +36,7 @@ namespace Genesys.Extras.Net
         private string routePrefix = TypeExtension.DefaultString; // Route Prefix for controller class
         private string routeVersion = TypeExtension.DefaultString; // Optional route version to be appended to controller route prefix. I.e. /OAuth/v2/Authorize (Prefix=OAuth, Action=Authorize, Version inserted inbetween)
         private string routeSuffix = TypeExtension.DefaultString; // Route mask for controller action method. Includes any hand-typed parameters
-        private KeyValueListSafe<StringMutable, StringMutable> ParameterNameAndMask = new KeyValueListSafe<StringMutable, StringMutable>(); // List of KVPs for /{Variable}/ActionMask
+        private KeyValueList<StringMutable, StringMutable> ParameterNameAndMask = new KeyValueList<StringMutable, StringMutable>(); // List of KVPs for /{Variable}/ActionMask
         private bool overrideAllPrefix { get; set; } = TypeExtension.DefaultBoolean;
         
         /// <summary>
@@ -61,7 +61,6 @@ namespace Genesys.Extras.Net
         public override string ToString()
         {
             var returnValue = TypeExtension.DefaultString;
-            // Default to Prefix/Suffix, until expand class to be dynamic based on IFormattable and logic per data condition
             returnValue = RouteBuilder.Format(routePrefix, routeSuffix);
             return returnValue;
         }

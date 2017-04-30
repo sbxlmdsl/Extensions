@@ -1,9 +1,20 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="ObjectExtension.cs" company="Genesys Source">
 //      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
@@ -88,14 +99,14 @@ namespace Genesys.Extensions
         }
 
         /// <summary>
-        /// Safe Type Casting based on .Net default() method
+        /// Safe Type Casting based on .NET default() method
         /// </summary>
         /// <typeparam name="TDestination">default(DestinationType)</typeparam>
         /// <param name="item">Item to default.</param>
         /// <returns>default(DestinationType)</returns>
         public static TDestination DefaultSafe<TDestination>(this object item)
         {
-            TDestination returnValue = TypeExtension.InvokeConstructorOrDefault<TDestination>();
+            var returnValue = TypeExtension.InvokeConstructorOrDefault<TDestination>();
 
             try
             {
@@ -119,7 +130,7 @@ namespace Genesys.Extensions
         /// <returns>Defaulted type, or created new()</returns>
         public static TDestination DirectCastSafe<TDestination>(this object item) where TDestination : new()
         {
-            TDestination returnValue = new TDestination();
+            var returnValue = new TDestination();
 
             try
             {
@@ -161,7 +172,7 @@ namespace Genesys.Extensions
         /// <param name="sourceItem">Source object</param>
         public static void Fill<T>(this T item, object sourceItem)
         {
-            Type sourceType = sourceItem.GetType();
+            var sourceType = sourceItem.GetType();
 
             foreach (PropertyInfo sourceProperty in sourceType.GetRuntimeProperties())
             {
@@ -173,8 +184,8 @@ namespace Genesys.Extensions
                     if (destinationPropertyType.GetTypeInfo().IsPrimitive || destinationPropertyType.GetTypeInfo().IsValueType
                         || (destinationPropertyType == typeof(string)) || (destinationPropertyType == typeof(Guid)))
                     {
-                        destinationProperty.SetValue(item, sourceProperty.GetValue(sourceItem, null), null); 
-                    }                    
+                        destinationProperty.SetValue(item, sourceProperty.GetValue(sourceItem, null), null);
+                    }
                 }
             }
         }
@@ -188,57 +199,50 @@ namespace Genesys.Extensions
         public static ObjectType Initialize<ObjectType>(this Object Item)
         {
             // Initialize
-            Type CurrentObjectType = Item.GetType();
+            var CurrentObjectType = Item.GetType();
 
             // Loop through all new item's properties
-            foreach (PropertyInfo CurrentProperty in CurrentObjectType.GetRuntimeProperties())
+            foreach (var CurrentProperty in CurrentObjectType.GetRuntimeProperties())
             {
-                try
+                // Copy the data using reflection
+                if (CurrentProperty.CanWrite == true)
                 {
-                    // Copy the data using reflection
-                    if (CurrentProperty.CanWrite == true)
+                    if (CurrentProperty.PropertyType.Equals(typeof(Int32)) || CurrentProperty.PropertyType.Equals(typeof(int)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Int32>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<int>)))
                     {
-                        if (CurrentProperty.PropertyType.Equals(typeof(Int32)) || CurrentProperty.PropertyType.Equals(typeof(int)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Int32>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<int>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultInt32, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(Int64)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Int64>)) || CurrentProperty.PropertyType.Equals(typeof(long)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<long>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultDouble, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(Double)) || CurrentProperty.PropertyType.Equals(typeof(double)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Double>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<double>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultDouble, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(Decimal)) || CurrentProperty.PropertyType.Equals(typeof(decimal)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Decimal>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<decimal>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultDecimal, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(String)) || CurrentProperty.PropertyType.Equals(typeof(string)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultString, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(Char)) || CurrentProperty.PropertyType.Equals(typeof(char)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Char>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<char>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultChar, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(Guid)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Guid>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultGuid, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(Boolean)) || CurrentProperty.PropertyType.Equals(typeof(bool)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Boolean>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<bool>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultBoolean, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(DateTime)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<DateTime>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultDate, null);
-                        } else if (CurrentProperty.PropertyType.Equals(typeof(TimeSpan)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<TimeSpan>)))
-                        {
-                            CurrentProperty.SetValue(Item, TypeExtension.DefaultDate, null);
-                        } else if (CurrentProperty.GetValue(Item, null) == null)
-                        {
-                            Type PropType = CurrentProperty.PropertyType;
-                            object NewProp = Activator.CreateInstance(PropType);
-                            CurrentProperty.SetValue(Item, NewProp, null);
-                        }
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultInt32, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(Int64)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Int64>)) || CurrentProperty.PropertyType.Equals(typeof(long)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<long>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultDouble, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(Double)) || CurrentProperty.PropertyType.Equals(typeof(double)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Double>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<double>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultDouble, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(Decimal)) || CurrentProperty.PropertyType.Equals(typeof(decimal)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Decimal>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<decimal>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultDecimal, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(String)) || CurrentProperty.PropertyType.Equals(typeof(string)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultString, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(Char)) || CurrentProperty.PropertyType.Equals(typeof(char)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Char>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<char>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultChar, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(Guid)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Guid>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultGuid, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(Boolean)) || CurrentProperty.PropertyType.Equals(typeof(bool)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Boolean>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<bool>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultBoolean, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(DateTime)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<DateTime>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultDate, null);
+                    } else if (CurrentProperty.PropertyType.Equals(typeof(TimeSpan)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<TimeSpan>)))
+                    {
+                        CurrentProperty.SetValue(Item, TypeExtension.DefaultDate, null);
+                    } else if (CurrentProperty.GetValue(Item, null) == null)
+                    {
+                        Type PropType = CurrentProperty.PropertyType;
+                        object NewProp = Activator.CreateInstance(PropType);
+                        CurrentProperty.SetValue(Item, NewProp, null);
                     }
-                }
-                catch
-                {
-                    // do nothing, cant handle
                 }
             }
 

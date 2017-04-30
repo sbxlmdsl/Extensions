@@ -44,7 +44,7 @@ namespace Genesys.Extras.Text.Encoding
         /// <returns></returns>
         public static string Encode(string stringToEncode)
         {
-            UrlEncoder encoder = new UrlEncoder(stringToEncode);
+            var encoder = new UrlEncoder(stringToEncode);
             return encoder.Encode();
         }
 
@@ -64,7 +64,7 @@ namespace Genesys.Extras.Text.Encoding
         /// <returns></returns>
         public static string Decode(string stringToDecode)
         {
-            UrlEncoder encoder = new UrlEncoder(stringToDecode);
+            var encoder = new UrlEncoder(stringToDecode);
             return encoder.Decode();
         }
     }
