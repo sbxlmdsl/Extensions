@@ -21,8 +21,12 @@ namespace Genesys.Extras.Test
         [TestMethod()]
         public void Mathematics_Age()
         {
-            var AgeObject = new Age(new DateTime(1988,5,5));
-            Assert.IsTrue(AgeObject.Years == 28);
+            var year = 1988;
+            var month = 5;
+            var day = 5;
+            var ageObject = new Age(new DateTime(year, month, day).Date);
+            var thisYearNoMonthsDays = DateTime.UtcNow.Date.AddMonths(-month).AddDays(-day);
+            Assert.IsTrue(ageObject.Years == (thisYearNoMonthsDays.Year - year + 1));
         }
     }
 }
