@@ -1,4 +1,4 @@
-using System.Resources;
+﻿using System.Resources;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Genesys Source")]
 [assembly: AssemblyProduct("Genesys Framework Extensions for .NET Core and .NET Full")]
-[assembly: AssemblyCopyright("Copyright � 2017 Genesys Source. All rights reserved")]
+[assembly: AssemblyCopyright("Copyright © 2017 Genesys Source. All rights reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
