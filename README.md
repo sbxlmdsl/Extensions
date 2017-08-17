@@ -4,17 +4,17 @@ Genesys Source Extensions is an open-source, cross-platform library that extends
 Bringing reusability to your software stack without the cost and uncertainty.
 
 Projects:
-* Genesys.Extensions (Universal): Portable Class Library (Windows, Xamarin iOS, Xamarin Android), .NET 4.6, Profile 151
-* Genesys.Extensions (Full): Class Library .NET 4.6
-* Genesys.Extras (Universal): Portable Class Library (Windows, Xamarin iOS, Xamarin Android), .NET 4.6, Profile 151
-* Genesys.Extras (Full): Class Library .NET 4.6
+* Genesys.Extensions.Core: Portable Class Library (Windows, Xamarin iOS, Xamarin Android), .NET 4.6, Profile 151
+* Genesys.Extensions.Standard: Class Library .NET 4.6
+* Genesys.Extras.Core: Portable Class Library (Windows, Xamarin iOS, Xamarin Android), .NET 4.6, Profile 151
+* Genesys.Extras.Standard: Class Library .NET 4.6
 
 Database:
 * SQL Express database included: Genesys.Extensions.Test\App_Data\GenesysExtensionsTest.mdf
  
 Genesys Source Namespaces:
 * Genesys.Framework: Structure and functionality Framework to support your reusable entities. Classes such as CrudEntity, EntityReader and EntityWriter.
-* Genesys.Extensions: .NET Framework extension methods for null-safe, strongly-typed operations. Cross-platform, open-source common library for .NET (Full) and .NET Core (Universal, Portable).
+* Genesys.Extensions: .NET Framework extension methods for null-safe, strongly-typed operations. Cross-platform, open-source common library for .NET.Standard and .NET Core (Universal, Portable).
 * Genesys.Extras: .NET Framework-level classes for common tasks such as Http request/response, serialization, string manipulation, error logging, etc. Cross-platform, open-source common library.
 
 ### Reference Site and Documentation
