@@ -9,24 +9,15 @@
     ".NETPortable,Version=v4.6,Profile=Profile151": []
   },
   "packageFolders": {
-    "C:\\Users\\TFSService\\.nuget\\packages\\": {}
+    "C:\\Users\\rjgood\\.nuget\\packages\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Builds\\Vgo-Build-01-Agent-01\\_work\\6\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
+      "projectUniqueName": "C:\\Repos\\Framework\\3.00-Alpha\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
       "projectName": "Genesys.Extensions.Core",
-      "projectPath": "C:\\Builds\\Vgo-Build-01-Agent-01\\_work\\6\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
-      "projectJsonPath": "C:\\Builds\\Vgo-Build-01-Agent-01\\_work\\6\\s\\Extensions\\Extensions\\Extensions.Core\\project.json",
-      "projectStyle": "ProjectJson",
-      "validateRuntimeAssets": true,
-      "files": {
-        "lib/portable46-net451+win81+wpa81/Genesys.Extensions.Core.dll": "C:\\Builds\\Vgo-Build-01-Agent-01\\_work\\6\\s\\Extensions\\Extensions\\Extensions.Core\\bin\\placeholder\\portable46-net451+win81+wpa81\\Genesys.Extensions.Core.dll"
-      },
-      "frameworks": {
-        "portable46-net451+win81+wpa81": {
-          "projectReferences": {}
-        }
-      }
+      "projectPath": "C:\\Repos\\Framework\\3.00-Alpha\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
+      "projectJsonPath": "C:\\Repos\\Framework\\3.00-Alpha\\Extensions\\Extensions\\Extensions.Core\\project.json",
+      "projectStyle": "ProjectJson"
     },
     "frameworks": {
       "portable46-net451+win81+wpa81": {}
