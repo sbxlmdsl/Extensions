@@ -71,7 +71,7 @@ namespace Genesys.Extras.Net
         public virtual new TypeToReceive Send()
         {
             base.Send();
-            DataReceivedDeserialized = this.Deserializer.Deserialize(base.DataReceivedDecrypted);
+            DataReceivedDeserialized = Deserializer.Deserialize(base.DataReceivedDecrypted);
             return DataReceivedDeserialized; 
         }
 
@@ -82,7 +82,7 @@ namespace Genesys.Extras.Net
         public virtual new async Task<TypeToReceive> SendAsync()
         {
             await base.SendAsync();
-            DataReceivedDeserialized = this.Deserializer.Deserialize(base.DataReceivedDecrypted);
+            DataReceivedDeserialized = Deserializer.Deserialize(base.DataReceivedDecrypted);
             return DataReceivedDeserialized;
         }
     }

@@ -73,7 +73,6 @@
     <Compile Include="Net.HttpRequest\HttpRequestClient.cs" />
     <Compile Include="Net.HttpRequest\HttpRequestDelete.cs" />
     <Compile Include="Net.HttpRequest\HttpRequestGet.cs" />
-    <Compile Include="Net.HttpRequest\HttpRequestDeleteString.cs" />
     <Compile Include="Net.HttpRequest\HttpRequestGetString.cs" />
     <Compile Include="Net.HttpRequest\HttpRequestPut.cs" />
     <Compile Include="Net.HttpRequest\HttpRequestPost.cs" />

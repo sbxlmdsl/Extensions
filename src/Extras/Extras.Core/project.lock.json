@@ -1,12 +1,50 @@
 {
-  "locked": false,
-  "version": 1,
+  "version": 2,
   "targets": {
-    ".NETPortable,Version=v4.6,Profile=Profile151": {}
+    ".NETPortable,Version=v4.6,Profile=Profile151": {
+      "Genesys.Extensions.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETPortable,Version=v4.6,Profile=Profile151"
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Genesys.Extensions.Core/1.0.0": {
+      "type": "project",
+      "path": "../../Extensions/Extensions.Core/project.json",
+      "msbuildProject": "../../Extensions/Extensions.Core/Genesys.Extensions.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
     "": [],
     ".NETPortable,Version=v4.6,Profile=Profile151": []
+  },
+  "packageFolders": {
+    "C:\\Users\\TFSService\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\Genesys.Extras.Core.csproj",
+      "projectName": "Genesys.Extras.Core",
+      "projectPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\Genesys.Extras.Core.csproj",
+      "projectJsonPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\project.json",
+      "projectStyle": "ProjectJson",
+      "validateRuntimeAssets": true,
+      "files": {
+        "lib/portable46-net451+win81+wpa81/Genesys.Extras.Core.dll": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\bin\\placeholder\\portable46-net451+win81+wpa81\\Genesys.Extras.Core.dll"
+      },
+      "frameworks": {
+        "portable46-net451+win81+wpa81": {
+          "projectReferences": {
+            "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj": {
+              "projectPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj"
+            }
+          }
+        }
+      }
+    },
+    "frameworks": {
+      "portable46-net451+win81+wpa81": {}
+    }
   }
 }

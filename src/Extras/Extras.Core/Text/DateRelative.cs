@@ -42,7 +42,7 @@ namespace Genesys.Extras.Text
         /// <summary>
         /// RelativeToDate
         /// </summary>
-        public string RelativeToDate { get { return RelativeDifferenceGet(this.DateToCompare); } private set { } }        
+        public string RelativeToDate { get { return RelativeDifferenceGet(DateToCompare); } private set { } }        
         
         /// <summary>
         /// Constructor

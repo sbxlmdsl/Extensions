@@ -170,7 +170,7 @@ namespace Genesys.Extras.Configuration
         public new void Add(AppSettingSafe itemToAdd)
         {
             // Check for ID
-            List<AppSettingSafe> conflictingItems = this.FindAll(x => x.Key == itemToAdd.Key);
+            List<AppSettingSafe> conflictingItems = FindAll(x => x.Key == itemToAdd.Key);
             if (AllowDuplicates == false && ThrowException == true && conflictingItems.Count > 0)
                 throw new System.IndexOutOfRangeException("Unable to add new items, Identity Key conflict.");
             base.Add(itemToAdd);
@@ -187,7 +187,7 @@ namespace Genesys.Extras.Configuration
             // Self-normalize based on AllowDuplicates and ThrowException
             if (AllowDuplicates == false && ThrowException == false && this.GetValue(key) != TypeExtension.DefaultString)
             {
-                RemoveAt(this.FindIndex(key));
+                RemoveAt(FindIndex(key));
             }
             base.Add(new AppSettingSafe(key, value));
         }
@@ -200,7 +200,7 @@ namespace Genesys.Extras.Configuration
         public void Remove(string key)
         {
             if (this.GetValue(key).ToStringSafe() != TypeExtension.DefaultString)
-                RemoveAt(this.FindIndex(key));
+                RemoveAt(FindIndex(key));
         }
     }
 }

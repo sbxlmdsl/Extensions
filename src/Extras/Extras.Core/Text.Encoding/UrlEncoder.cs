@@ -36,13 +36,13 @@ namespace Genesys.Extras.Text.Encoding
         /// <param name="dataToProcess">Data to encrypt or decrypt</param>
         public UrlEncoder(string dataToProcess) : base()
         {
-            this.dataIn = dataToProcess;
+            dataIn = dataToProcess;
         }
 
         /// <summary>
         /// Encodes to Base64
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Url Encoded escaped string</returns>
         public string Encode()
         {            
             return Uri.EscapeDataString(dataIn).Replace("+", "%20");
@@ -71,7 +71,7 @@ namespace Genesys.Extras.Text.Encoding
         /// <summary>
         /// Decodes from Base64
         /// </summary>
-        /// <param name="stringToDecode"></param>
+        /// <param name="stringToDecode"></param>sd
         /// <returns></returns>
         public static string Decode(string stringToDecode)
         {

@@ -18,34 +18,25 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Genesys.Extensions;
 using Genesys.Extras.Security.Cryptography;
-using Genesys.Extras.Serialization;
 
 namespace Genesys.Extras.Net
 {
     /// <summary>
-    /// Communicates via DELETE, strongly typed
+    /// Communicates via DELETE, all transmissions String
     /// </summary>
     [CLSCompliant(true)]
-    public class HttpRequestDelete<TypeToReceive> : HttpRequestDeleteString where TypeToReceive : new()
+    public class HttpRequestDelete : HttpRequestClient
     {
         /// <summary>
-        /// DataReceivedRaw value decrypted
-        /// </summary>
-        public TypeToReceive DataReceivedDeserialized { get; set; } = new TypeToReceive();
-        /// <summary>
-        /// De-serializer of response
-        /// </summary>
-        public ISerializer<TypeToReceive> Deserializer { get; protected set; } = new JsonSerializer<TypeToReceive>();
-        /// <summary>
-        /// KnownTypes assist the serializer with types that cannot be mapped by default
-        /// </summary>
-        public List<Type> KnownTypes { get; protected set; } = new List<Type>();
-        
-        /// <summary>
         /// Immutable
+        /// </summary>
+        protected internal HttpRequestDelete() : base() { }
+
+        /// <summary>
+        /// Construct with data
         /// </summary>
         public HttpRequestDelete(Uri url) : base(url) { }
 
@@ -57,33 +48,27 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Construct with data
         /// </summary>
-        public HttpRequestDelete(Uri url, ISerializer<TypeToReceive> deserializer) : this(url) { Deserializer = deserializer; }
+        public HttpRequestDelete(Uri url, IEncryptor encrptor) : base(url, encrptor) { }
 
         /// <summary>
-        /// Construct with data
+        /// Synchronously sends a GET request, Receives string response
+        /// Warning: Not thread safe, particularly in Web-based UIs. This is a stopgap to allow legacy code to operate with blocking/deadlock risk.
         /// </summary>
-        public HttpRequestDelete(Uri url, IEncryptor encrptor) : base(url, encrptor) { }
-        
-        /// <summary>
-        /// Sync send and Receive
-        /// </summary>
-        /// <returns></returns>
-        public virtual new TypeToReceive Send()
+        /// <returns>Result</returns>
+        public override string Send()
         {
-            base.Send();
-            DataReceivedDeserialized = this.Deserializer.Deserialize(base.DataReceivedDecrypted);
-            return DataReceivedDeserialized; 
+            Response = Client.DeleteAsync(Url).Result;
+            return DataReceivedDecrypted;
         }
 
         /// <summary>
-        /// Async send and Receive
+        /// Asynchronously sends a GET request, Receives strongly typed response
         /// </summary>
-        /// <returns></returns>
-        public virtual new async Task<TypeToReceive> SendAsync()
+        /// <returns>Response data</returns>
+        public override async Task<string> SendAsync()
         {
-            await base.SendAsync();
-            DataReceivedDeserialized = this.Deserializer.Deserialize(base.DataReceivedDecrypted);
-            return DataReceivedDeserialized;
+            Response = await Client.DeleteAsync(Url);
+            return DataReceivedDecrypted;
         }
     }
 }

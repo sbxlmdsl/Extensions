@@ -196,7 +196,7 @@ namespace Genesys.Extras.Net
                 // Never batch send for legal reasons. Have to put email in the footer of every email
                 foreach (var emailAddress in mailToAddresses)
                 {
-                    if (emailAddress.IsEmail(false) == true)
+                    if (emailAddress.IsEmail(false))
                     {
                         // Will get 'from, etc' from .config file
                         var OutgoingMail = new MailMessage();

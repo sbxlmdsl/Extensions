@@ -291,7 +291,7 @@ namespace Genesys.Extensions
         {
             var returnValue = item.Trim();
 
-            if (item.IsFirst(toRemove) == true)
+            if (item.IsFirst(toRemove))
             {
                 returnValue = item.SubstringRight(item.Length - toRemove.Length);
             }
@@ -309,7 +309,7 @@ namespace Genesys.Extensions
         {
             var returnValue = item.Trim();
 
-            if (item.IsLast(toRemove) == true)
+            if (item.IsLast(toRemove))
             {
                 returnValue = item.SubstringLeft(item.Length - toRemove.Length);
             }

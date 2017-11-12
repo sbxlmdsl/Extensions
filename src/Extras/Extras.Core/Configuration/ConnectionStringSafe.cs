@@ -251,11 +251,11 @@ namespace Genesys.Extras.Configuration
             switch (format.ToUpperInvariant())
             {
                 case "EF":
-                    if (IsEF == true)
+                    if (IsEF)
                     { returnValue = Value; } else { returnValue = String.Format(maskEF, EDMXFileName, Value).Replace("&quot;", "'"); }
                     break;
                 case "ADO":
-                    if (IsADO == true)
+                    if (IsADO)
                     { returnValue = Value; } else
                     {
                         var cleansed = String.Format("{0}{1}", valueField.Value.Replace("\"", "").Replace("'", "").RemoveLast(";"), ";");

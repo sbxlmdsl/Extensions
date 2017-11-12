@@ -140,7 +140,7 @@ namespace Genesys.Extensions
                 newItem = new T();
                 newItem.Fill(sourceItem);
                 item.Add(newItem);
-            }
+            }            
         }
     }
 }

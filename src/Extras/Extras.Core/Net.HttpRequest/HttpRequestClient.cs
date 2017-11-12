@@ -121,7 +121,7 @@ namespace Genesys.Extras.Net
         /// <returns>Constructed url</returns>
         public HttpRequestClient(string protocol, string serverName, int port, string applicationPath)
         {
-            this.Url = new UrlBuilder(protocol, serverName, port, applicationPath).Uri;
+            Url = new UrlBuilder(protocol, serverName, port, applicationPath).Uri;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Genesys.Extras.Net
                 requestUri.Append("&" + Uri.EscapeDataString(Item.Key) + "=" + Uri.EscapeDataString(Item.Value));
             }
 
-            this.Url = new Uri(requestUri.ToString(), UriKind.RelativeOrAbsolute);
+            Url = new Uri(requestUri.ToString(), UriKind.RelativeOrAbsolute);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Genesys.Extras.Net
         /// <returns>Constructed url</returns>
         public HttpRequestClient(string urlNoQuerystring, IEnumerable<string> parametersAndValues)
         {
-            this.Url = new UrlBuilder(urlNoQuerystring, parametersAndValues).Uri;
+            Url = new UrlBuilder(urlNoQuerystring, parametersAndValues).Uri;
         }
 
         /// <summary>
@@ -192,19 +192,16 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Inheritance disposal
         /// </summary>
-        /// <param name="disposing"></param>
+        /// <param name="disposing">Disposing state flag</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
             {
                 if (disposing)
                 {
-                    // Free any other managed objects
                     clientValue.Dispose();
                     responseValue.Dispose();
                 }
-
-                // Free any unmanaged objects
                 disposed = true;
             }
         }

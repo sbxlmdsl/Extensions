@@ -1,9 +1,20 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="StringExtensionTests.cs" company="Genesys Source">
-//      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Copyright (c) Genesys Source. All rights reserved.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,7 +74,7 @@ namespace Genesys.Extensions.Test
             var mixed = "Hello";
             var upper = "HELLO";
             Assert.IsTrue(mixed.IsCaseUpper() == false);
-            Assert.IsTrue(upper.IsCaseUpper() == true);
+            Assert.IsTrue(upper.IsCaseUpper());
         }
 
         [TestMethod()]
@@ -72,7 +83,7 @@ namespace Genesys.Extensions.Test
             var mixed = "Hello";
             var lower = "hello";
             Assert.IsTrue(mixed.IsCaseLower() == false);
-            Assert.IsTrue(lower.IsCaseLower() == true);
+            Assert.IsTrue(lower.IsCaseLower());
         }
 
         [TestMethod()]
@@ -80,7 +91,7 @@ namespace Genesys.Extensions.Test
         {
             var mixed = "Hello";
             var upper = "HELLO";            
-            Assert.IsTrue(mixed.IsCaseMixed() == true);
+            Assert.IsTrue(mixed.IsCaseMixed());
             Assert.IsTrue(upper.IsCaseMixed() == false);
         }
 
@@ -88,14 +99,14 @@ namespace Genesys.Extensions.Test
         public void String_IsFirst()
         {
             var testData = "Hello";
-            Assert.IsTrue(testData.IsFirst("H") == true);
+            Assert.IsTrue(testData.IsFirst("H"));
         }
 
         [TestMethod()]
         public void String_IsLast()
         {
             var testData = "Hello";
-            Assert.IsTrue(testData.IsLast("o") == true);
+            Assert.IsTrue(testData.IsLast("o"));
         }
 
         [TestMethod()]
@@ -103,7 +114,7 @@ namespace Genesys.Extensions.Test
         {
             var testDataGood = "testing@GenesysFramework.com";
             var testDataBad = "testingATGenesysFramework.com";
-            Assert.IsTrue(testDataGood.IsEmail() == true);
+            Assert.IsTrue(testDataGood.IsEmail());
             Assert.IsTrue(testDataBad.IsEmail() == false);
         }
 
@@ -112,7 +123,7 @@ namespace Genesys.Extensions.Test
         {
             var testDataGood = "1234";
             var testDataBad = "OneTwo12";
-            Assert.IsTrue(testDataGood.IsInteger() == true);
+            Assert.IsTrue(testDataGood.IsInteger());
             Assert.IsTrue(testDataBad.IsInteger() == false);
         }
 
@@ -122,8 +133,8 @@ namespace Genesys.Extensions.Test
             var testDataTrue1 = "1";
             var testDataTrue2 = "11";
             var testDataFalse = "0";
-            Assert.IsTrue(testDataTrue1.TryParseBoolean() == true);
-            Assert.IsTrue(testDataTrue2.TryParseBoolean() == true);
+            Assert.IsTrue(testDataTrue1.TryParseBoolean());
+            Assert.IsTrue(testDataTrue2.TryParseBoolean());
             Assert.IsTrue(testDataFalse.TryParseBoolean() == false);
         }
 

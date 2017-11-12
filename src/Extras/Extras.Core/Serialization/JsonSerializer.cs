@@ -71,7 +71,7 @@ namespace Genesys.Extras.Serialization
             try
             {
                 if (objectToSerialize == null && this.EmptyStringAndNullSupported == false) { throw new System.ArgumentNullException("Passed parameter is null. Unable to serialize null objects."); }
-                serializer = new DataContractJsonSerializer(objectToSerialize.GetType(), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = this.DateTimeFormatString, KnownTypes = this.KnownTypes });
+                serializer = new DataContractJsonSerializer(objectToSerialize.GetType(), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = DateTimeFormatString, KnownTypes = this.KnownTypes });
                 using (MemoryStream stream = new MemoryStream())
                 {
                     serializer.WriteObject(stream, objectToSerialize);
@@ -104,7 +104,7 @@ namespace Genesys.Extras.Serialization
             try
             {
                 if (stringToDeserialize == TypeExtension.DefaultString && this.EmptyStringAndNullSupported == false) { throw new System.ArgumentNullException("Passed parameter is empty. Unable to deserialize empty strings."); }
-                serializer = new DataContractJsonSerializer(typeof(T), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = this.DateTimeFormatString, KnownTypes = this.KnownTypes });
+                serializer = new DataContractJsonSerializer(typeof(T), new DataContractJsonSerializerSettings() { EmitTypeInformation = this.EmitTypeInformation, DateTimeFormat = DateTimeFormatString, KnownTypes = this.KnownTypes });
                 bytes = Encoding.Unicode.GetBytes(stringToDeserialize);
                 using (MemoryStream stream = new MemoryStream(bytes))
                 {

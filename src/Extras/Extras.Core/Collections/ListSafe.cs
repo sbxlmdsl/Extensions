@@ -61,9 +61,9 @@ namespace Genesys.Extras.Collections
         /// <param name="newItem">Item to add</param>
         public new void Add(ListType newItem)
         {
-            if (this.GetValue(newItem).ToStringSafe() != TypeExtension.DefaultString)
+            if (GetValue(newItem).ToStringSafe() != TypeExtension.DefaultString)
             {
-                base.RemoveAt(this.FindIndex(newItem));
+                base.RemoveAt(FindIndex(newItem));
             }
             base.Add(newItem);
         }
@@ -76,7 +76,7 @@ namespace Genesys.Extras.Collections
         {
             if (this.GetValue(itemToRemove).ToStringSafe() != TypeExtension.DefaultString)
             {
-                base.RemoveAt(this.FindIndex(itemToRemove));
+                base.RemoveAt(FindIndex(itemToRemove));
             }
         }
 

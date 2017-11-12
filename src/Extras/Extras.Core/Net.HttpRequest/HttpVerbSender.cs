@@ -55,10 +55,7 @@ namespace Genesys.Extras.Net
         /// </summary>
         public virtual void OnSendBegin(HttpRequestClient request)
         {
-            if (SendBegin != null)
-            {
-                SendBegin(this, new RequestEventArgs() { Request = request });
-            }
+            SendBegin?.Invoke(this, new RequestEventArgs() { Request = request });
             Request = request;
         }
 
@@ -67,10 +64,7 @@ namespace Genesys.Extras.Net
         /// </summary>
         public virtual void OnSendEnd(HttpRequestClient request)
         {
-            if (SendEnd != null)
-            {
-                SendEnd(this, new RequestEventArgs() { Request = request });
-            }
+            SendEnd?.Invoke(this, new RequestEventArgs() { Request = request });
             Request = request;
         }
 
@@ -167,13 +161,13 @@ namespace Genesys.Extras.Net
         public virtual async Task<bool> SendDeleteAsync(Uri fullUrl)
         {
             var returnValue = TypeExtension.DefaultBoolean;
-            var request = new HttpRequestDelete<bool>(fullUrl);
+            var request = new HttpRequestDelete(fullUrl);
 
             OnSendBegin(request);
-            returnValue = await request.SendAsync();
+            await request.SendAsync();
             OnSendEnd(request);
 
-            return returnValue;
+            return request.Response.IsSuccessStatusCode;
         }        
     }
 }

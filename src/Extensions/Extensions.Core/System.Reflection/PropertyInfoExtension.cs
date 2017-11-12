@@ -40,7 +40,7 @@ namespace Genesys.Extensions
 
             foreach (object attribute in item.GetCustomAttributes(false))
             {
-                if ((attribute is TAttribute) == true)
+                if ((attribute is TAttribute))
                 {
                     returnValue = ((TAttribute)attribute).Value;
                     break;

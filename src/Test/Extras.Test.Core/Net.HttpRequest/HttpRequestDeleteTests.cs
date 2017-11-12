@@ -1,9 +1,20 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="HttpRequestDeleteTests.cs" company="Genesys Source">
-//      Copyright (c) 2017 Genesys Source. All rights reserved.
-//      All rights are reserved. Reproduction or transmission in whole or in part, in
-//      any form or by any means, electronic, mechanical or otherwise, is prohibited
-//      without the prior written consent of the copyright owner.
+//      Copyright (c) Genesys Source. All rights reserved.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
 using Genesys.Extensions;
@@ -20,11 +31,11 @@ namespace Genesys.Extras.Test
     public class HttpRequestDeleteTests
     {
         [TestMethod()]
-        public async Task Net_HttpRequestDeleteString_SendAsync()
+        public async Task Net_HttpRequestDelete_SendAsync()
         {
             var dataOut = TypeExtension.DefaultString;
             var configuration = ConfigurationManagerSafeTests.ConfigurationManagerSafeConstruct();
-            var request = new HttpRequestDeleteString(configuration.AppSettingValue(AppSettingList.MyWebServiceKeyName) + "/HomeApi");
+            var request = new HttpRequestDelete(configuration.AppSettingValue(AppSettingList.MyWebServiceKeyName) + "/HomeApi");
             try
             {
                 dataOut = await request.SendAsync();
@@ -39,27 +50,6 @@ namespace Genesys.Extras.Test
             {
                 request.Dispose();
             }
-        }
-
-        [TestMethod()]
-        public async Task Net_HttpRequestDelete_SendAsync()
-        {
-            object dataOut = null;
-            var configuration = ConfigurationManagerSafeTests.ConfigurationManagerSafeConstruct();
-            var request = new HttpRequestDelete<object>(configuration.AppSettingValue(AppSettingList.MyWebServiceKeyName) + "/HomeApi");
-            try
-            {
-                dataOut = await request.SendAsync();
-                Assert.IsTrue(request.Response.IsSuccessStatusCode);
-            }
-            catch (WebException)
-            {
-                Assert.IsTrue(dataOut != null);
-            }
-            finally
-            {
-                request.Dispose();
-            }
-        }
+        }        
     }
 }

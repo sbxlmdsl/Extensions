@@ -129,13 +129,7 @@ namespace Genesys.Extras.Configuration
         /// <remarks></remarks>
         public StringMutable GetValue(StringMutable key)
         {
-            var returnValue = new StringMutable();
-            var x1 = key == "DefaultConnection" ? true : false;
-            returnValue = this.FindSafe(x => x.Key == key.ToString()).Value;
-            var key2 = key;
-            returnValue = this.FindSafe(x => x.Key == key2).Value;
-            returnValue = this.FindSafe(x => x.Key == key).Value;
-            return returnValue;
+            return this.FindSafe(x => x.Key == key).Value;
         }
         
         /// <summary>
@@ -165,7 +159,7 @@ namespace Genesys.Extras.Configuration
         public new void Add(ConnectionStringSafe itemToAdd)
         {
             // Check for ID clear-age
-            List<ConnectionStringSafe> ConflictingItems = this.FindAll(x => x.Key == itemToAdd.Key);
+            List<ConnectionStringSafe> ConflictingItems = FindAll(x => x.Key == itemToAdd.Key);
             if (AllowDuplicates == false && ThrowException == true && ConflictingItems.Count > 0)
                 throw new System.IndexOutOfRangeException("Unable to add new items, Identity Key conflict.");
             base.Add(itemToAdd);
@@ -182,7 +176,7 @@ namespace Genesys.Extras.Configuration
             // Self-normalize based on AllowDuplicates and ThrowException
             if (AllowDuplicates == false && ThrowException == false && this.GetValue(key) != TypeExtension.DefaultString)
             {
-                RemoveAt(this.FindIndex(key));
+                RemoveAt(FindIndex(key));
             }
             base.Add(new ConnectionStringSafe() { Key = key, Value = value });
         }
@@ -195,7 +189,7 @@ namespace Genesys.Extras.Configuration
         public void Remove(StringMutable key)
         {
             if (this.GetValue(key).ToStringSafe() != TypeExtension.DefaultString)
-                RemoveAt(this.FindIndex(key));
+                RemoveAt(FindIndex(key));
         }
     }
 }

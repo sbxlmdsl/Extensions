@@ -88,7 +88,7 @@ namespace Genesys.Extras.Net
         public new TDataOut Send()
         {
             base.DataReceivedDecrypted = base.Send();
-            dataReceivedStrong = this.Deserializer.Deserialize(base.DataReceivedDecrypted);
+            dataReceivedStrong = Deserializer.Deserialize(base.DataReceivedDecrypted);
             return dataReceivedStrong;
         }
 
@@ -99,7 +99,7 @@ namespace Genesys.Extras.Net
         public new async Task<TDataOut> SendAsync()
         {
             base.DataReceivedDecrypted = await base.SendAsync();
-            dataReceivedStrong = this.Deserializer.Deserialize(base.DataReceivedDecrypted);
+            dataReceivedStrong = Deserializer.Deserialize(base.DataReceivedDecrypted);
             return dataReceivedStrong;
         }
     }

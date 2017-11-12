@@ -93,7 +93,7 @@ namespace Genesys.Extensions
             TypeInfo itemType = item.GetType().GetTypeInfo();
 
             var returnValue = itemType.DeclaredProperties.Where(
-                p => p.GetCustomAttributes(myAttribute, false).Any() == true);
+                p => p.GetCustomAttributes(myAttribute, false).Any());
 
             return returnValue;
         }
@@ -200,7 +200,7 @@ namespace Genesys.Extensions
             foreach (PropertyInfo sourceProperty in sourceType.GetRuntimeProperties())
             {
                 PropertyInfo destinationProperty = typeof(T).GetRuntimeProperty(sourceProperty.Name);
-                if (destinationProperty != null && destinationProperty.CanWrite == true)
+                if (destinationProperty != null && destinationProperty.CanWrite)
                 {
                     // Copy data only for Primitive-ish types including Value types, Guid, String, etc.
                     Type destinationPropertyType = destinationProperty.PropertyType;
@@ -228,7 +228,7 @@ namespace Genesys.Extensions
             foreach (var CurrentProperty in CurrentObjectType.GetRuntimeProperties())
             {
                 // Copy the data using reflection
-                if (CurrentProperty.CanWrite == true)
+                if (CurrentProperty.CanWrite)
                 {
                     if (CurrentProperty.PropertyType.Equals(typeof(Int32)) || CurrentProperty.PropertyType.Equals(typeof(int)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<Int32>)) || CurrentProperty.PropertyType.Equals(typeof(Nullable<int>)))
                     {
