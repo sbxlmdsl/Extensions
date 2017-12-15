@@ -62,6 +62,7 @@
     <Compile Include="System.Collections.Generic\ListExtension.cs" />
     <Compile Include="System.IO\StreamExtension.cs" />
     <Compile Include="System.Linq\IQueryableExtension.cs" />
+    <Compile Include="System.Net.Mime\MimeTypes.cs" />
     <Compile Include="System.Net\HttpRequestExtension.cs" />
     <Compile Include="System.Reflection\PropertyInfoExtension.cs" />
     <Compile Include="System\ByteExtension.cs" />

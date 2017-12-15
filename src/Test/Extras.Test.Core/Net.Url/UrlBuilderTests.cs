@@ -34,6 +34,7 @@ namespace Genesys.Extras.Test
         public string LocalhostWithPortAsString { get; set; } = "http://localhost:80";
         public List<string> ParameterList = new List<string>() { "param1", "param2", "param3" };
         public KeyValueListString QuerystringList = new KeyValueListString() { { "key1", "param1" }, { "key2", "param2" }, { "key3", "param3" } };
+
         [TestMethod()]
         public void Net_UrlBuilder()
         {

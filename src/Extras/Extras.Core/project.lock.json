@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETPortable,Version=v4.6,Profile=Profile151": {
       "Genesys.Extensions.Core/1.0.0": {
@@ -24,20 +24,28 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\Genesys.Extras.Core.csproj",
+      "projectUniqueName": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extras\\Extras.Core\\Genesys.Extras.Core.csproj",
       "projectName": "Genesys.Extras.Core",
-      "projectPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\Genesys.Extras.Core.csproj",
-      "projectJsonPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\project.json",
+      "projectPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extras\\Extras.Core\\Genesys.Extras.Core.csproj",
+      "projectJsonPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extras\\Extras.Core\\project.json",
+      "packagesPath": "C:\\Users\\TFSService\\.nuget\\packages\\",
+      "outputPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extras\\Extras.Core\\obj\\",
       "projectStyle": "ProjectJson",
       "validateRuntimeAssets": true,
-      "files": {
-        "lib/portable46-net451+win81+wpa81/Genesys.Extras.Core.dll": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extras\\Extras.Core\\bin\\placeholder\\portable46-net451+win81+wpa81\\Genesys.Extras.Core.dll"
+      "configFilePaths": [
+        "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\.nuget\\NuGet.Config",
+        "C:\\Users\\TFSService\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "portable46-net451+win81+wpa81": {
           "projectReferences": {
-            "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj": {
-              "projectPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj"
+            "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj": {
+              "projectPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj"
             }
           }
         }

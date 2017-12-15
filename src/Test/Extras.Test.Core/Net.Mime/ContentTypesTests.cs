@@ -17,8 +17,9 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Genesys.Extensions;
 using Genesys.Extras.Net;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Genesys.Extras.Test
 {
@@ -29,7 +30,7 @@ namespace Genesys.Extras.Test
         public void Net_Mime_ContentTypes()
         {
             // Structure of Http content types
-            Assert.IsTrue(ContentTypes.Types.ApplicationUnknown == "application/unknown");
+            Assert.IsTrue(MimeTypes.ApplicationUnknown == "application/unknown");
 
             var x = new ContentTypes();
             Assert.IsTrue(x.Count > 0);

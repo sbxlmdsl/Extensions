@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETPortable,Version=v4.6,Profile=Profile151": {}
   },
@@ -13,14 +13,22 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
+      "projectUniqueName": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
       "projectName": "Genesys.Extensions.Core",
-      "projectPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
-      "projectJsonPath": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\project.json",
+      "projectPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extensions\\Extensions.Core\\Genesys.Extensions.Core.csproj",
+      "projectJsonPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extensions\\Extensions.Core\\project.json",
+      "packagesPath": "C:\\Users\\TFSService\\.nuget\\packages\\",
+      "outputPath": "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\Extensions\\Extensions.Core\\obj\\",
       "projectStyle": "ProjectJson",
       "validateRuntimeAssets": true,
-      "files": {
-        "lib/portable46-net451+win81+wpa81/Genesys.Extensions.Core.dll": "C:\\Builds\\Vgo-Build-01-Agent-02\\_work\\51\\s\\Extensions\\Extensions\\Extensions.Core\\bin\\placeholder\\portable46-net451+win81+wpa81\\Genesys.Extensions.Core.dll"
+      "configFilePaths": [
+        "\\\\vault.domain.vgo.local\\builds\\sprints\\2017.12\\GitHub\\Extensions\\src\\.nuget\\NuGet.Config",
+        "C:\\Users\\TFSService\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "portable46-net451+win81+wpa81": {

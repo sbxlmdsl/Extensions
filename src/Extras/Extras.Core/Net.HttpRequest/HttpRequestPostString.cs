@@ -38,7 +38,7 @@ namespace Genesys.Extras.Net
         /// <summary>
         /// Mime content type of data to send
         /// </summary>
-        public string ContentType { get; set; } = ContentTypes.Types.Json;
+        public string ContentType { get; set; } = MimeTypes.Json;
 
         /// <summary>
         /// Construct with data

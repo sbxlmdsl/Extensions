@@ -18,14 +18,13 @@ Genesys Source Namespaces:
 * Genesys.Extras: .NET Framework-level classes for common tasks such as Http request/response, serialization, string manipulation, error logging, etc. Cross-platform, open-source common library.
 
 ### Reference Site and Documentation
-Genesys Source Framework downloads and docs available at [GenesysFramework.com](http://www.GenesysFramework.com):
+Genesys Source Framework downloads and docs available at [GenesysStack.com](http://www.GenesysStack.com):
 Genesys Source Framework...
-* [Genesys Framework Overview](http://www.getframework.com/)
-* [Genesys Framework Quick-Guide](http://docs.genesyssource.com/library/Genesys-Framework/Genesys-Framework-Quick-Guide.pdf)
-* [Genesys Framework Requirements](http://docs.genesyssource.com/library/Genesys-Framework/Genesys-Framework-Requirements.pdf)
-* [Genesys Framework Reference](http://docs.genesyssource.com/reference/Genesys-Framework)
-Genesys Soruce Extensions...
-* [Genesys Extensions Reference ](http://docs.genesyssource.com/reference/Genesys-Extensions)
+* [Genesys Framework Home](http://www.genesysstack.com/)
+* [Genesys Framework Quick-Guide](http://docs.genesyssource.com/products/Genesys-Framework/Start-your-Genesys-Source-Framework.pdf)
+* [Genesys Framework Data Sheet](http://docs.genesyssource.com/products/Genesys-Framework/What-is-the-Genesys-Source-Framework.pdf)
+* [Genesys Framework API Class Reference](http://docs.genesyssource.com/reference/Genesys-Framework)
+* [Genesys Extensions API Class Reference ](http://docs.genesyssource.com/reference/Genesys-Extensions)
 
 ### Dev Environment and Compiling
 Please use the latest Visual Studio and build using the IDE or MSBuild.exe. Our CICD processes default to the latest Visual Studio and MSBuild versions.
@@ -35,7 +34,7 @@ Please use the latest SQL Server and/or SQL Expresss and publish using the SSDT 
 
 ### Hosting
 - Cloud: Azure Web Server, Database Server and/or Virtual Machines.
-- On-Prem: Latest Windows Server, IIS, .NET 4.5, SQL Server.
+- On-Prem: Latest Windows Server, IIS, .NET, SQL Server.
 
 ### Build and Release
 - VisualStudio.com repos set to TFVC. On-prem TFS server and build agent for local infrastructure powershell deployments.

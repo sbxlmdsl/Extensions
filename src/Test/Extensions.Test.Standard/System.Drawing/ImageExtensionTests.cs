@@ -18,6 +18,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Drawing;
 
 namespace Genesys.Extensions.Test
 {
@@ -37,6 +38,9 @@ namespace Genesys.Extensions.Test
         [TestMethod()]
         public void Image_ToBytes()
         {
+            var item = ImageExtension.ImageEmpty;
+            var bytes = item.ToBytes();
+            Assert.IsTrue(bytes.Length > 0);
         }
     }
 }

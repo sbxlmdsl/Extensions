@@ -21,6 +21,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 
 namespace Genesys.Extensions
@@ -123,11 +124,31 @@ namespace Genesys.Extensions
         public static byte[] ToBytes(this Image item)
         {
             var returnValue = new MemoryStream();
-            if ((item == null == false) && (item.Size.Width > 0 & item.Size.Height > 0))
+            var format = item.ToMimeType() == MimeTypes.ImageUnknown ? ImageFormat.Bmp : item.RawFormat;
+            if ((item != null) && (item.Size.Width > 0 & item.Size.Height > 0))
             {
-                item.Save(returnValue, item.RawFormat);
+
+                item.Save(returnValue, format);
             }
             return returnValue.ToArray();
+        }
+
+        /// <summary>
+        /// Converts to MimeType.
+        ///  Also can be used to validate RawFormat value
+        /// </summary>
+        /// <param name="item">Image to evaluate</param>
+        /// <returns>String mime type</returns>
+        public static string ToMimeType(this Image item)
+        {
+            var returnValue = MimeTypes.ImageUnknown;
+            var itemGuid = item.RawFormat.Guid;
+            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageDecoders())
+            {
+                if (codec.FormatID == itemGuid)
+                    return codec.MimeType;
+            }
+            return returnValue;
         }
     }
 }
